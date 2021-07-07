@@ -1,0 +1,14 @@
+{
+  "name": "openfl-gpu-particles",
+  "url": "https://github.com/rainyt/openfl-gpu-particles",
+  "license": "MIT",
+  "tags": ["sprite","particles","openfl"],
+  "description": "GPU Particles render",
+  "version": "0.0.1",
+  "releasenote": "GPU Particles render.",
+  "contributors": ["rainy"],
+  "classPath": "src",
+  "dependencies": {
+
+  }
+}
