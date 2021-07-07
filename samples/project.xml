@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="GPUParticle" package="com.sample.GPUParticle" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="GPUParticle" />
+	
+	<assets path="Assets" rename="assets" embed="false"/>
+	
+	<haxelib name="openfl"/>
+	<haxelib name="openfl-glsl"/>
+	<haxelib name="openfl-gpu-particles"/>
+	<source path="Source" />
+
+	<!-- <window allow-high-dpi="true" /> -->
+	<haxedef name="gl_stats"/>
+
+</project>

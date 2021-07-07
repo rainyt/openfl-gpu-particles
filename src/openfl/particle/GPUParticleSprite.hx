@@ -1,5 +1,6 @@
 package openfl.particle;
 
+import openfl.events.Event;
 #if zygame
 import zygame.core.Start;
 import zygame.core.Refresher;
@@ -123,6 +124,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		#if zygame
 		Start.current.addToUpdate(this);
 		#else
+		this.addEventListener(Event.ENTER_FRAME, onFrame);
 		#end
 	}
 
@@ -130,10 +132,15 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		#if zygame
 		Start.current.removeToUpdate(this);
 		#else
+		this.removeEventListener(Event.ENTER_FRAME, onFrame);
 		#end
 	}
 
+	#if zygame
 	public function onFrame() {
+	#else
+	public function onFrame(e:Event) {
+	#end
 		this.time += 1 / 60;
 		if (dynamicEmitPoint) {
 			for (index => value in childs) {
@@ -169,11 +176,12 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		@:privateAccess for (index => value in this.graphics.__usedShaderBuffers) {
 			value.update(value.shader);
 		}
+		this.invalidate();
 	}
 
 	/**
-	 * 初始化所有粒子
-	 */
+ * 初始化所有粒子
+ */
 	private function _init() {
 		if (texture == null)
 			return;
@@ -313,15 +321,15 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 	#if !flash
 	/**
-	 * 重构触摸事件，无法触发触摸的问题
-	 * @param x
-	 * @param y
-	 * @param shapeFlag
-	 * @param stack
-	 * @param interactiveOnly
-	 * @param hitObject
-	 * @return Bool
-	 */
+ * 重构触摸事件，无法触发触摸的问题
+ * @param x
+ * @param y
+ * @param shapeFlag
+ * @param stack
+ * @param interactiveOnly
+ * @param hitObject
+ * @return Bool
+ */
 	override private function __hitTest(x:Float, y:Float, shapeFlag:Bool, stack:Array<DisplayObject>, interactiveOnly:Bool, hitObject:DisplayObject):Bool {
 		return false;
 	}
@@ -336,4 +344,3 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		return value;
 	}
 }
-
