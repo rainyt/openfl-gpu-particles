@@ -13,6 +13,11 @@ import VectorMath;
  */
 class GPUParticleShader extends OpenFLGraphicsShader {
 	/**
+	 * 旋转角度，一共有两个值，x=开始角度，y=结束角度
+	 */
+	@:attribute public var rota:Vec2;
+
+	/**
 	 * 动态点，如果z为0时，则使用动态点，不使用原坐标
 	 */
 	@:attribute public var dynamicPos:Vec3;
@@ -170,13 +175,15 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 			lifeAlpha = 0;
 		}
 
-		// 角度
-		var d:Mat4 = rotaion(0, vec3(0, 0, 1), vec3(gl_openfl_TextureSize.x * 0.5, gl_openfl_TextureSize.y * 0.5, 0));
-
 		// 缩放
 		var sx:Float = scaleXXYY.x * outlife + scaleXXYY.y * (1 - outlife);
 		var sy:Float = scaleXXYY.z * outlife + scaleXXYY.w * (1 - outlife);
 		var s:Mat4 = scale(sx, sy);
+
+		// 角度：开始角度 + (最终角度 - 开始角度) * 剩余生命
+		var endrotaion:Float = (rota.y - rota.x);
+		var d:Mat4 = rotaion(rota.x + endrotaion * outlife, vec3(0, 0, 1), vec3(sx * gl_openfl_TextureSize.x * 0.5, sy * gl_openfl_TextureSize.y * 0.5, 0));
+
 		// 平移
 		var smove:Vec2 = vec2((sx - 1.) * 0.25 * 0.25 * gl_openfl_TextureSize.x, (sy - 1.) * 0.25 * 0.25 * gl_openfl_TextureSize.y);
 

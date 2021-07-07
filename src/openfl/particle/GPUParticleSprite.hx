@@ -97,6 +97,11 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	 */
 	public var scaleYAttribute:GPUGroupAttribute = new GPUGroupAttribute(new GPUOneAttribute(1), new GPUOneAttribute(1));
 
+	/**
+	 * 旋转属性
+	 */
+	public var rotaionAttribute:GPUGroupAttribute = new GPUGroupAttribute(new GPUOneAttribute(0), new GPUOneAttribute(0));
+
 	private var _vertices:Vector<Float>;
 
 	private var _triangles:Vector<Int>;
@@ -141,6 +146,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	#else
 	public function onFrame(e:Event) {
 	#end
+
 		this.time += 1 / 60;
 		if (dynamicEmitPoint) {
 			for (index => value in childs) {
@@ -200,6 +206,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		_shader.a_pos.value = [];
 		_shader.a_scaleXXYY.value = [];
 		_shader.a_dynamicPos.value = [];
+		_shader.a_rota.value = [];
 		childs = [];
 		for (i in 0...counts) {
 			var child = new GPUParticleChild(this, i);
@@ -270,12 +277,17 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			var scaleXend:Float = scaleXAttribute.end.getValue();
 			var scaleYend:Float = scaleYAttribute.end == scaleXAttribute.end ? scaleXend : scaleYAttribute.end.getValue();
 
+			var startRotaion:Float = rotaionAttribute.start.getValue();
+			var endRotaion:Float = rotaionAttribute.end.getValue();
+
 			var rlife = Math.random() * life * 0.5 + life * 0.5;
 
 			child.life = rlife;
 			child.random = r;
 
 			for (i in 0...6) {
+				_shader.a_rota.value.push(startRotaion);
+				_shader.a_rota.value.push(endRotaion);
 				_shader.a_random.value.push(r);
 				_shader.a_velocity.value.push(vx);
 				_shader.a_velocity.value.push(vy);
