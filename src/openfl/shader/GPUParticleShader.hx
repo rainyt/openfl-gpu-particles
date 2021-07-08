@@ -13,7 +13,17 @@ import VectorMath;
  */
 class GPUParticleShader extends OpenFLGraphicsShader {
 	/**
-	 * 旋转角度，一共有两个值，x=开始角度，y=结束角度
+	 * 开始颜色值
+	 */
+	@:attribute public var startColor:Vec4;
+
+	/**
+	 * 结束颜色值
+	 */
+	@:attribute public var endColor:Vec4;
+
+	/**
+	 * 旋转角度，x=开始角度，y=结束角度
 	 */
 	@:attribute public var rota:Vec2;
 
@@ -76,6 +86,11 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 	 * 剩余的生命周期
 	 */
 	@:varying public var outlife:Float;
+
+	/**
+	 * 颜色过渡
+	 */
+	@:varying public var colorv:Vec4;
 
 	/**
 	 * 生命可见度
@@ -157,9 +172,6 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 	override function vertex() {
 		super.vertex();
 
-		// 准备原坐标
-		var mat:Mat4 = gl_openfl_Matrix;
-
 		// 生命
 		var nowtime:Float = time - life * random;
 		var aliveTime:Float = mod(nowtime, life);
@@ -167,6 +179,45 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 
 		// 剩余的生命周期
 		this.outlife = (life - aliveTime) / life;
+		var ooutlife:Float = 1 - outlife;
+
+		// // 颜色处理模块
+		// var allcolorlife:Float = colorlife.x + colorlife.y + colorlife.z + colorlife.w;
+		// var clife:Vec4 = vec4(colorlife.x / allcolorlife, (colorlife.x + colorlife.y) / allcolorlife,
+		// 	(colorlife.x + colorlife.y + colorlife.z) / allcolorlife, (colorlife.x + colorlife.y + colorlife.z + colorlife.w) / allcolorlife);
+		// // var clife[0]:Float = colorlife.x / allcolorlife;
+		// // var clife[1]:Float = (colorlife.x + colorlife.y) / allcolorlife;
+		// // var clife[2]:Float = (colorlife.x + colorlife.y + colorlife.z) / allcolorlife;
+		// // var clife[3]:Float = (colorlife.x + colorlife.y + colorlife.z + colorlife.w) / allcolorlife;
+		// // 如果剩余时间大于过渡时间
+		// // 计算出开始过渡值
+		// var startlife:Float = 0;
+		// var endlife:Float = 0;
+		// var startColor:Vec4 = vec4(1, 1, 1, 1);
+		// var endColor:Vec4 = vec4(1, 1, 1, 1);
+		// var colorif:Float = step(ooutlife, clife[0]);
+		// startColor.x = 0.4;
+		// startColor = startColor * colorif + colors[0] * (1. - colorif);
+		// endColor = endColor * colorif + colors[1] * (1. - colorif);
+		// startlife = startlife * colorif + clife[0] * (1. - colorif);
+		// endlife = endlife * colorif + clife[1] * (1. - colorif);
+
+		// colorif = step(ooutlife, clife[1]);
+		// startColor = startColor * colorif + colors[1] * (1. - colorif);
+		// endColor = endColor * colorif + colors[2] * (1. - colorif);
+		// startlife = startlife * colorif + clife[1] * (1. - colorif);
+		// endlife = endlife * colorif + clife[2] * (1. - colorif);
+
+		// colorif = step(ooutlife, clife[2]);
+		// startColor = startColor * colorif + colors[2] * (1. - colorif);
+		// endColor = endColor * colorif + colors[3] * (1. - colorif);
+		// startlife = startlife * colorif + clife[2] * (1. - colorif);
+		// endlife = endlife * colorif + clife[3] * (1. - colorif);
+
+		colorv = startColor + (endColor - startColor) * ooutlife;
+
+		// 准备原坐标
+		var mat:Mat4 = gl_openfl_Matrix;
 
 		lifeAlpha = 1;
 
@@ -207,7 +258,8 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 	override function fragment() {
 		super.fragment();
 		// color.a = 0.;
-		color.rgba *= outlife;
+		color.rgb *= colorv.rgb;
+		color.rgba *= colorv.a;
 		// color.rgb *= vec3(1, 0.2, 0.2);
 		this.gl_FragColor = color * lifeAlpha * gl_openfl_Alphav;
 	}

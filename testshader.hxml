@@ -1,0 +1,4 @@
+--class-path test
+--main Test
+--library vector-math
+--interp
