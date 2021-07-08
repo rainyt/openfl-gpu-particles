@@ -1,5 +1,6 @@
 package openfl.particle;
 
+import openfl.geom.Point;
 import openfl.events.Event;
 #if zygame
 import zygame.core.Start;
@@ -108,6 +109,8 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 	private var _uv:Vector<Float>;
 
+	private var _pos:Point = new Point();
+
 	public function new() {
 		super();
 		_shader = new GPUParticleShader();
@@ -149,25 +152,29 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 		this.time += 1 / 60;
 		if (dynamicEmitPoint) {
+			_pos.x = this.x;
+			_pos.y = this.y;
+			_pos = this.parent.localToGlobal(_pos);
+			_pos = Start.current.globalToLocal(_pos);
 			for (index => value in childs) {
 				if (value.onReset()) {
-					_shader.a_dynamicPos.value[value.id * 18] = this.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 1] = this.y;
+					_shader.a_dynamicPos.value[value.id * 18] = _pos.x;
+					_shader.a_dynamicPos.value[value.id * 18 + 1] = _pos.y;
 					_shader.a_dynamicPos.value[value.id * 18 + 2] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 3] = this.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 4] = this.y;
+					_shader.a_dynamicPos.value[value.id * 18 + 3] = _pos.x;
+					_shader.a_dynamicPos.value[value.id * 18 + 4] = _pos.y;
 					_shader.a_dynamicPos.value[value.id * 18 + 5] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 6] = this.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 7] = this.y;
+					_shader.a_dynamicPos.value[value.id * 18 + 6] = _pos.x;
+					_shader.a_dynamicPos.value[value.id * 18 + 7] = _pos.y;
 					_shader.a_dynamicPos.value[value.id * 18 + 8] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 9] = this.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 10] = this.y;
+					_shader.a_dynamicPos.value[value.id * 18 + 9] = _pos.x;
+					_shader.a_dynamicPos.value[value.id * 18 + 10] = _pos.y;
 					_shader.a_dynamicPos.value[value.id * 18 + 11] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 12] = this.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 13] = this.y;
+					_shader.a_dynamicPos.value[value.id * 18 + 12] = _pos.x;
+					_shader.a_dynamicPos.value[value.id * 18 + 13] = _pos.y;
 					_shader.a_dynamicPos.value[value.id * 18 + 14] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 15] = this.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 16] = this.y;
+					_shader.a_dynamicPos.value[value.id * 18 + 15] = _pos.x;
+					_shader.a_dynamicPos.value[value.id * 18 + 16] = _pos.y;
 					_shader.a_dynamicPos.value[value.id * 18 + 17] = 1;
 					// trace("reset", value.id, _shader.a_dynamicPos.value);
 					// _shader.a_dynamicPos.value[value.id + 2] = this.x;
