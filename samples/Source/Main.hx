@@ -2,7 +2,7 @@ package;
 
 import openfl.events.MouseEvent;
 import openfl.particle.GPUParticleSprite;
-import openfl.particle.GPURandomTowAttribute;
+import openfl.particle.GPURandomTwoAttribute;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.utils.Assets;
@@ -48,8 +48,8 @@ class Main extends Sprite {
 				gpuSystem.widthRange = 50;
 				gpuSystem.heightRange = 50;
 				// 设置粒子的缩放系数
-				var startrandom = new GPURandomTowAttribute(1, 2);
-				var random = new GPURandomTowAttribute(0., 0.1);
+				var startrandom = new GPURandomTwoAttribute(1, 2);
+				var random = new GPURandomTwoAttribute(0., 0.1);
 				gpuSystem.scaleXAttribute.start = startrandom;
 				gpuSystem.scaleYAttribute.start = startrandom;
 				gpuSystem.scaleXAttribute.end = random;

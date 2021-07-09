@@ -3,9 +3,9 @@ package openfl.particle;
 /**
  * 两个数值之间的随时值
  */
- class GPURandomTowAttribute implements GPUAttribute {
+ class GPURandomTwoAttribute implements GPUAttribute {
 	public static function create(startRandom:Float, endRandom:Float):GPUAttribute {
-		return new GPURandomTowAttribute(startRandom, endRandom);
+		return new GPURandomTwoAttribute(startRandom, endRandom);
 	}
 
 	public var startRandom:Float;

@@ -219,8 +219,8 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	}
 
 	/**
- * 初始化所有粒子
- */
+	 * 初始化所有粒子
+	 */
 	private function _init() {
 		if (texture == null)
 			return;
