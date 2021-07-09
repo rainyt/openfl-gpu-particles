@@ -34,21 +34,23 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.widthRange = data.sourcePositionVariancex;
 		this.heightRange = data.sourcePositionVariancey;
 		// 设置粒子向量
-		this.velocity.x.asOneAttribute().value = 0;
-		this.velocity.y = new GPURandomTwoAttribute(data.speed, data.speed + data.speedVariance);
+		this.velocity.y.asOneAttribute().value = 0;
+		this.velocity.x = new GPURandomTwoAttribute(data.speed - data.speedVariance, data.speed + data.speedVariance);
 		this.gravity.x.asOneAttribute().value = data.gravityx;
 		this.gravity.y.asOneAttribute().value = data.gravityy;
+		// 设置粒子发射方向
+		this.emitRotation = new GPURandomTwoAttribute(data.angle - data.angleVariance, data.angle + data.angleVariance);
 	}
 
 	override function start() {
 		// 设置粒子的初始化大小
-		var scale1 = data.startParticleSize / texture.width;
+		var scale1 = (data.startParticleSize - data.startParticleSizeVariance) / texture.width;
 		var scale2 = (data.startParticleSize + data.startParticleSizeVariance) / texture.width;
 		var random:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
 		this.scaleXAttribute.start = random;
 		this.scaleYAttribute.start = random;
 		// 设置粒子的结束大小
-		scale1 = data.finishParticleSize / texture.width;
+		scale1 = (data.finishParticleSize - data.finishParticleSizeVariance) / texture.width;
 		scale2 = (data.finishParticleSize + data.finishParticleSizeVariance) / texture.width;
 		var random:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
 		this.scaleXAttribute.end = random;
@@ -127,7 +129,9 @@ typedef GPUJSONParticleSpriteJSONData = {
 	tangentialAccelVariance:Float,
 	// ok
 	particleLifespanVariance:Float,
+	// ok
 	angleVariance:Float,
+	// ok
 	angle:Float,
 	maxRadius:Float
 }

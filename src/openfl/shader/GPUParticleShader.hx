@@ -181,39 +181,6 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		this.outlife = (life - aliveTime) / life;
 		var ooutlife:Float = 1 - outlife;
 
-		// // 颜色处理模块
-		// var allcolorlife:Float = colorlife.x + colorlife.y + colorlife.z + colorlife.w;
-		// var clife:Vec4 = vec4(colorlife.x / allcolorlife, (colorlife.x + colorlife.y) / allcolorlife,
-		// 	(colorlife.x + colorlife.y + colorlife.z) / allcolorlife, (colorlife.x + colorlife.y + colorlife.z + colorlife.w) / allcolorlife);
-		// // var clife[0]:Float = colorlife.x / allcolorlife;
-		// // var clife[1]:Float = (colorlife.x + colorlife.y) / allcolorlife;
-		// // var clife[2]:Float = (colorlife.x + colorlife.y + colorlife.z) / allcolorlife;
-		// // var clife[3]:Float = (colorlife.x + colorlife.y + colorlife.z + colorlife.w) / allcolorlife;
-		// // 如果剩余时间大于过渡时间
-		// // 计算出开始过渡值
-		// var startlife:Float = 0;
-		// var endlife:Float = 0;
-		// var startColor:Vec4 = vec4(1, 1, 1, 1);
-		// var endColor:Vec4 = vec4(1, 1, 1, 1);
-		// var colorif:Float = step(ooutlife, clife[0]);
-		// startColor.x = 0.4;
-		// startColor = startColor * colorif + colors[0] * (1. - colorif);
-		// endColor = endColor * colorif + colors[1] * (1. - colorif);
-		// startlife = startlife * colorif + clife[0] * (1. - colorif);
-		// endlife = endlife * colorif + clife[1] * (1. - colorif);
-
-		// colorif = step(ooutlife, clife[1]);
-		// startColor = startColor * colorif + colors[1] * (1. - colorif);
-		// endColor = endColor * colorif + colors[2] * (1. - colorif);
-		// startlife = startlife * colorif + clife[1] * (1. - colorif);
-		// endlife = endlife * colorif + clife[2] * (1. - colorif);
-
-		// colorif = step(ooutlife, clife[2]);
-		// startColor = startColor * colorif + colors[2] * (1. - colorif);
-		// endColor = endColor * colorif + colors[3] * (1. - colorif);
-		// startlife = startlife * colorif + clife[2] * (1. - colorif);
-		// endlife = endlife * colorif + clife[3] * (1. - colorif);
-
 		colorv = startColor + (endColor - startColor) * ooutlife;
 
 		// 准备原坐标

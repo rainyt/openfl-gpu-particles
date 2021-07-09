@@ -89,7 +89,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	/**
 	 * 发射角度
 	 */
-	public var emitRotation:Float = 45;
+	public var emitRotation:GPUAttribute = new GPUOneAttribute(0);
 
 	/**
 	 * 发射方向范围
@@ -271,17 +271,17 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			var ax = 0.;
 			var ay = 0.;
 			var angle = 0.;
-			var sx = Math.random() * widthRange - widthRange * 0.5;
-			var sy = Math.random() * heightRange - heightRange * 0.5;
+			var sx = Math.random() * widthRange * 2 - widthRange;
+			var sy = Math.random() * heightRange * 2 - heightRange;
 			switch (emitMode) {
 				case Point:
-					angle = Math.random() * 360;
+					angle = emitRotation.getValue() * Math.PI / 180;
 					vx = velocity.x.getValue();
 					vy = velocity.y.getValue();
 					ax = gravity.x.getValue();
 					ay = gravity.y.getValue();
 				default:
-					angle = emitRotation * Math.PI / 180;
+					angle = emitRotation.getValue() * Math.PI / 180;
 					vx = velocity.x.getValue();
 					vy = velocity.y.getValue();
 					ax = gravity.x.getValue();
