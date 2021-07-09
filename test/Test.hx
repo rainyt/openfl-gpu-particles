@@ -48,6 +48,7 @@ class Test {
 			startlife = startlife * colorif + clife3 * (1 - colorif);
 			endlife = endlife * colorif + clife4 * (1 - colorif);
 
+			// 最终值3
 			var centerColor = startColor + (endColor - startColor) * (ooutlife / endlife);
 
 			// colorif = step(ooutlife, clife4);

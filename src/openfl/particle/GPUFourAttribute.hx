@@ -25,4 +25,11 @@ class GPUFourAttribute {
 			return value;
 		return new GPUOneAttribute(value);
 	}
+
+	public function setColor(r:Float, g:Float, b:Float, a:Float):Void {
+		this.x = new GPUOneAttribute(r);
+		this.y = new GPUOneAttribute(g);
+		this.z = new GPUOneAttribute(b);
+		this.w = new GPUOneAttribute(a);
+	}
 }

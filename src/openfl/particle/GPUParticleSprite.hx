@@ -19,6 +19,14 @@ import VectorMath;
  */
 class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	/**
+	 * 通过JSON解析GPU粒子
+	 * @param json 
+	 */
+	public static function fromJson(json:Dynamic):GPUJSONParticleSprite {
+		return new GPUJSONParticleSprite(json);
+	}
+
+	/**
 	 * 子粒子
 	 */
 	public var childs:Array<GPUParticleChild>;
@@ -69,6 +77,11 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	public var life:Float = 1;
 
 	/**
+	 * 持续时长的方差
+	 */
+	public var lifeVariance:Float = 0;
+
+	/**
 	 * 是否循环
 	 */
 	public var loop(get, set):Bool;
@@ -81,7 +94,12 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	/**
 	 * 发射方向范围
 	 */
-	public var velocity:GPUVec2;
+	public var velocity:GPUVec2 = new GPUVec2();
+
+	/**
+	 * 发射方向范围方差
+	 */
+	public var velocityVariance:GPUVec2 = new GPUVec2();
 
 	/**
 	 * 重力
@@ -108,7 +126,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	 */
 	// public var colorTweenAttribute:GPUColorTweenAttribute = new GPUColorTweenAttribute();
 	public var colorAttribute:GPUGroupFourAttribute = new GPUGroupFourAttribute(new GPUFourAttribute(), new GPUFourAttribute());
-	
+
 	private var _vertices:Vector<Float>;
 
 	private var _triangles:Vector<Int>;
@@ -263,10 +281,10 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			switch (emitMode) {
 				case Point:
 					angle = Math.random() * 360;
-					vx = Math.random() * velocity.x - velocity.x * 0.5;
-					vy = Math.random() * velocity.y - velocity.y * 0.5;
-					ax = Math.random() * gravity.x;
-					ay = Math.random() * gravity.y;
+					vx = velocity.x + velocityVariance.x * Math.random();
+					vy = velocity.y + velocityVariance.y * Math.random();
+					ax = gravity.x;
+					ay = gravity.y;
 				default:
 					angle = emitRotation * Math.PI / 180;
 					vx = Math.random() * velocity.x;
@@ -288,7 +306,8 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			var startRotaion:Float = rotaionAttribute.start.getValue();
 			var endRotaion:Float = rotaionAttribute.end.getValue();
 
-			var rlife = Math.random() * life * 0.5 + life * 0.5;
+			// 生命+生命方差实现
+			var rlife = life + Math.random() * lifeVariance;
 
 			child.life = rlife;
 			child.random = r;
