@@ -202,6 +202,23 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 					_shader.a_dynamicPos.value[id + 15] = _pos.x;
 					_shader.a_dynamicPos.value[id + 16] = _pos.y;
 					_shader.a_dynamicPos.value[id + 17] = 1;
+
+					var sx = Math.random() * widthRange * 2 - widthRange;
+					var sy = Math.random() * heightRange * 2 - heightRange;
+					var id = value.id * 12;
+
+					_shader.a_pos.value[id] = sx;
+					_shader.a_pos.value[id + 1] = sy;
+					_shader.a_pos.value[id + 2] = sx;
+					_shader.a_pos.value[id + 3] = sy;
+					_shader.a_pos.value[id + 4] = sx;
+					_shader.a_pos.value[id + 5] = sy;
+					_shader.a_pos.value[id + 6] = sx;
+					_shader.a_pos.value[id + 7] = sy;
+					_shader.a_pos.value[id + 8] = sx;
+					_shader.a_pos.value[id + 9] = sy;
+					_shader.a_pos.value[id + 10] = sx;
+					_shader.a_pos.value[id + 11] = sy;
 				}
 			}
 		} else {
