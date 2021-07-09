@@ -94,17 +94,17 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	/**
 	 * 发射方向范围
 	 */
-	public var velocity:GPUVec2 = new GPUVec2();
+	public var velocity:GPUTwoAttribute = new GPUTwoAttribute();
 
-	/**
-	 * 发射方向范围方差
-	 */
-	public var velocityVariance:GPUVec2 = new GPUVec2();
+	// /**
+	//  * 发射方向范围方差
+	//  */
+	// public var velocityVariance:GPUVec2 = new GPUVec2();
 
 	/**
 	 * 重力
 	 */
-	public var gravity:GPUVec2;
+	public var gravity:GPUTwoAttribute = new GPUTwoAttribute();
 
 	/**
 	 * 缩放属性ScaleX
@@ -124,7 +124,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	/**
 	 * 颜色过渡参数
 	 */
-	// public var colorTweenAttribute:GPUColorTweenAttribute = new GPUColorTweenAttribute();
 	public var colorAttribute:GPUGroupFourAttribute = new GPUGroupFourAttribute(new GPUFourAttribute(), new GPUFourAttribute());
 
 	private var _vertices:Vector<Float>;
@@ -139,8 +138,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		super();
 		_shader = new GPUParticleShader();
 		this.blendMode = BlendMode.SCREEN;
-		velocity = new GPUVec2();
-		gravity = new GPUVec2();
 	}
 
 	/**
@@ -219,15 +216,13 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	}
 
 	/**
-	 * 初始化所有粒子
-	 */
+ * 初始化所有粒子
+ */
 	private function _init() {
 		if (texture == null)
 			return;
-		// this.shader = _shader;
 		_shader.data.bitmap.input = texture;
 		this.graphics.clear();
-		// this.graphics.beginBitmapFill(texture);
 		this.graphics.beginShaderFill(_shader);
 		var vertices:Vector<Float> = new Vector();
 		var triangles:Vector<Int> = new Vector();
@@ -281,16 +276,16 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			switch (emitMode) {
 				case Point:
 					angle = Math.random() * 360;
-					vx = velocity.x + velocityVariance.x * Math.random();
-					vy = velocity.y + velocityVariance.y * Math.random();
-					ax = gravity.x;
-					ay = gravity.y;
+					vx = velocity.x.getValue();
+					vy = velocity.y.getValue();
+					ax = gravity.x.getValue();
+					ay = gravity.y.getValue();
 				default:
 					angle = emitRotation * Math.PI / 180;
-					vx = Math.random() * velocity.x;
-					vy = Math.random() * velocity.y;
-					ax = Math.random() * gravity.x;
-					ay = Math.random() * gravity.y;
+					vx = velocity.x.getValue();
+					vy = velocity.y.getValue();
+					ax = gravity.x.getValue();
+					ay = gravity.y.getValue();
 			}
 
 			var vx1:Float = Math.cos(angle) * vx + Math.sin(angle) * vy;
@@ -312,37 +307,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			child.life = rlife;
 			child.random = r;
 
-			// 颜色过渡配置
-			// var ct1:Float = colorTweenAttribute.lifeScale.x.getValue();
-			// var ct2:Float = colorTweenAttribute.lifeScale.y.getValue();
-			// var ct3:Float = colorTweenAttribute.lifeScale.z.getValue();
-			// var ct4:Float = colorTweenAttribute.lifeScale.w.getValue();
-			// var colors:Array<Float> = [];
-			// for (index => value in colorTweenAttribute.colors) {
-			// 	colors.push(value.x.getValue());
-			// 	colors.push(value.y.getValue());
-			// 	colors.push(value.z.getValue());
-			// 	colors.push(value.w.getValue());
-			// }
-			// if (colors.length == 0) {
-			// 	// 即无，所有都是1
-			// 	for (i in 0...16) {
-			// 		colors.push(1);
-			// 	}
-			// } else if (colors.length < 16) {
-			// 	// 剩余的保持最后4个
-			// 	var end1 = colors[colors.length - 4];
-			// 	var end2 = colors[colors.length - 3];
-			// 	var end3 = colors[colors.length - 2];
-			// 	var end4 = colors[colors.length - 1];
-			// 	while (colors.length < 16) {
-			// 		colors.push(end1);
-			// 		colors.push(end2);
-			// 		colors.push(end3);
-			// 		colors.push(end4);
-			// 	}
-			// }
-
 			var startColor1 = colorAttribute.start.x.getValue();
 			var startColor2 = colorAttribute.start.y.getValue();
 			var startColor3 = colorAttribute.start.z.getValue();
@@ -354,15 +318,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			var endColor4 = colorAttribute.end.w.getValue();
 
 			for (i in 0...6) {
-				// // 颜色过渡比重
-				// _shader.a_colorlife.value.push(ct1);
-				// _shader.a_colorlife.value.push(ct2);
-				// _shader.a_colorlife.value.push(ct3);
-				// _shader.a_colorlife.value.push(ct4);
-				// // 颜色过渡值
-				// for (index => value in colors) {
-				// 	_shader.a_colors.value.push(value);
-				// }
 				// 颜色过渡
 				_shader.a_startColor.value.push(startColor1);
 				_shader.a_startColor.value.push(startColor2);

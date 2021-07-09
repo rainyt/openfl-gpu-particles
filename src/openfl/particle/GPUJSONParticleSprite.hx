@@ -2,6 +2,8 @@ package openfl.particle;
 
 import openfl.particle.GPUParticleEmitMode;
 
+using openfl.particle.Tools;
+
 /**
  * 用于解析通用的粒子JSON格式文件，如支持Particle Designer导出的粒子特效
  */
@@ -12,7 +14,7 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		super();
 		this.data = data;
 		this.loop = true;
-		var random = new GPURandomTowAttribute(0., 1);
+		var random = new GPURandomTwoAttribute(0., 1);
 		// 设置开始颜色
 		this.colorAttribute.start.setColor(data.startColorRed, data.startColorGreen, data.startColorBlue, data.startColorAlpha);
 		// 设置结束颜色
@@ -32,25 +34,23 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.widthRange = data.sourcePositionVariancex;
 		this.heightRange = data.sourcePositionVariancey;
 		// 设置粒子向量
-		this.velocity.x = 0;
-		this.velocity.y = data.speed;
-		this.velocityVariance.x = 0;
-		this.velocityVariance.y = data.speedVariance;
-		this.gravity.x = data.gravityx;
-		this.gravity.y = data.gravityy;
+		this.velocity.x.asOneAttribute().value = 0;
+		this.velocity.y = new GPURandomTwoAttribute(data.speed, data.speed + data.speedVariance);
+		this.gravity.x.asOneAttribute().value = data.gravityx;
+		this.gravity.y.asOneAttribute().value = data.gravityy;
 	}
 
 	override function start() {
 		// 设置粒子的初始化大小
 		var scale1 = data.startParticleSize / texture.width;
 		var scale2 = (data.startParticleSize + data.startParticleSizeVariance) / texture.width;
-		var random:GPURandomTowAttribute = new GPURandomTowAttribute(scale1, scale2);
+		var random:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
 		this.scaleXAttribute.start = random;
 		this.scaleYAttribute.start = random;
 		// 设置粒子的结束大小
 		scale1 = data.finishParticleSize / texture.width;
 		scale2 = (data.finishParticleSize + data.finishParticleSizeVariance) / texture.width;
-		var random:GPURandomTowAttribute = new GPURandomTowAttribute(scale1, scale2);
+		var random:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
 		this.scaleXAttribute.end = random;
 		this.scaleYAttribute.end = random;
 		super.start();
