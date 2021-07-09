@@ -183,24 +183,46 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			#end
 			for (index => value in childs) {
 				if (value.onReset()) {
-					_shader.a_dynamicPos.value[value.id * 18] = _pos.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 1] = _pos.y;
-					_shader.a_dynamicPos.value[value.id * 18 + 2] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 3] = _pos.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 4] = _pos.y;
-					_shader.a_dynamicPos.value[value.id * 18 + 5] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 6] = _pos.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 7] = _pos.y;
-					_shader.a_dynamicPos.value[value.id * 18 + 8] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 9] = _pos.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 10] = _pos.y;
-					_shader.a_dynamicPos.value[value.id * 18 + 11] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 12] = _pos.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 13] = _pos.y;
-					_shader.a_dynamicPos.value[value.id * 18 + 14] = 1;
-					_shader.a_dynamicPos.value[value.id * 18 + 15] = _pos.x;
-					_shader.a_dynamicPos.value[value.id * 18 + 16] = _pos.y;
-					_shader.a_dynamicPos.value[value.id * 18 + 17] = 1;
+					var id = value.id * 18;
+					_shader.a_dynamicPos.value[id] = _pos.x;
+					_shader.a_dynamicPos.value[id + 1] = _pos.y;
+					_shader.a_dynamicPos.value[id + 2] = 1;
+					_shader.a_dynamicPos.value[id + 3] = _pos.x;
+					_shader.a_dynamicPos.value[id + 4] = _pos.y;
+					_shader.a_dynamicPos.value[id + 5] = 1;
+					_shader.a_dynamicPos.value[id + 6] = _pos.x;
+					_shader.a_dynamicPos.value[id + 7] = _pos.y;
+					_shader.a_dynamicPos.value[id + 8] = 1;
+					_shader.a_dynamicPos.value[id + 9] = _pos.x;
+					_shader.a_dynamicPos.value[id + 10] = _pos.y;
+					_shader.a_dynamicPos.value[id + 11] = 1;
+					_shader.a_dynamicPos.value[id + 12] = _pos.x;
+					_shader.a_dynamicPos.value[id + 13] = _pos.y;
+					_shader.a_dynamicPos.value[id + 14] = 1;
+					_shader.a_dynamicPos.value[id + 15] = _pos.x;
+					_shader.a_dynamicPos.value[id + 16] = _pos.y;
+					_shader.a_dynamicPos.value[id + 17] = 1;
+				}
+			}
+		} else {
+			for (index => value in childs) {
+				if (value.onReset()) {
+					var sx = Math.random() * widthRange * 2 - widthRange;
+					var sy = Math.random() * heightRange * 2 - heightRange;
+					var id = value.id * 12;
+
+					_shader.a_pos.value[id] = sx;
+					_shader.a_pos.value[id + 1] = sy;
+					_shader.a_pos.value[id + 2] = sx;
+					_shader.a_pos.value[id + 3] = sy;
+					_shader.a_pos.value[id + 4] = sx;
+					_shader.a_pos.value[id + 5] = sy;
+					_shader.a_pos.value[id + 6] = sx;
+					_shader.a_pos.value[id + 7] = sy;
+					_shader.a_pos.value[id + 8] = sx;
+					_shader.a_pos.value[id + 9] = sy;
+					_shader.a_pos.value[id + 10] = sx;
+					_shader.a_pos.value[id + 11] = sy;
 				}
 			}
 		}

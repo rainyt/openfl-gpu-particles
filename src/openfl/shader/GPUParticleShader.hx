@@ -224,10 +224,8 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 
 	override function fragment() {
 		super.fragment();
-		// color.a = 0.;
 		color.rgb *= colorv.rgb;
 		color.rgba *= colorv.a;
-		// color.rgb *= vec3(1, 0.2, 0.2);
 		this.gl_FragColor = color * lifeAlpha * gl_openfl_Alphav;
 	}
 
