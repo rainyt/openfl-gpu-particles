@@ -215,7 +215,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		for (i in 0...counts) {
 			var child = new GPUParticleChild(this, i);
 			childs.push(child);
-
 			vertices.push(0);
 			vertices.push(0);
 			vertices.push(texture.width);
@@ -244,14 +243,8 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		_vertices = vertices;
 		_triangles = triangles;
 		_uv = uv;
-		// trace("坐标", vertices, "\n顶点", triangles, "\nUV", uv);
-		// trace("-着色器", _shader.a_velocity.value);
-		// trace("-坐标", vertices.length, "\n顶点", triangles.length, "\nUV", uv.length);
 		this.graphics.drawTriangles(vertices, triangles, uv);
 		this.graphics.endFill();
-
-		// trace("a_dynamicPos=",this._shader.a_dynamicPos.value);
-		// throw "???";
 	}
 
 	function get_time():Float {

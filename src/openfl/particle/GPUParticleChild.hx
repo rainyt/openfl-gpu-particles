@@ -53,7 +53,6 @@ class GPUParticleChild {
 
 	public function reset():Void {
 		var r = Math.random();
-
 		var vx = 0.;
 		var vy = 0.;
 		var ax = 0.;
@@ -63,7 +62,7 @@ class GPUParticleChild {
 		var posAngle = 0.;
 		var sx = Math.random() * sprite.widthRange * 2 - sprite.widthRange;
 		var sy = Math.random() * sprite.heightRange * 2 - sprite.heightRange;
-		posAngle = Math.atan2((sx - 0), (sy - 0));
+		posAngle = Math.atan2((sy - 0), (sx - 0));
 		switch (sprite.emitMode) {
 			case Point:
 				angle = sprite.emitRotation.getValue() * Math.PI / 180;
@@ -100,7 +99,7 @@ class GPUParticleChild {
 		var endRotaion:Float = sprite.rotaionAttribute.end.getValue();
 
 		// 生命+生命方差实现
-		var rlife = life + Math.random() * sprite.lifeVariance;
+		var rlife = sprite.life + Math.random() * sprite.lifeVariance;
 
 		this.life = rlife;
 		this.random = r;
