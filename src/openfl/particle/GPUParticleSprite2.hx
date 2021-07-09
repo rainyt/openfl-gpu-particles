@@ -170,11 +170,104 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		#end
 	}
 
-	public function onFrame(#if !zygameui e:Event #end) {
+	#if zygame
+	public function onFrame() {
+	#else
+	public function onFrame(e:Event) {
+	#end
+
 		this.time += 1 / 60;
-		for (index => value in childs) {
-			if (value.onReset()) {
-				value.reset();
+		if (dynamicEmitPoint) {
+			_pos.x = this.x;
+			_pos.y = this.y;
+			_pos = this.parent.localToGlobal(_pos);
+			#if zygame
+			_pos = Start.current.globalToLocal(_pos);
+			#else
+			_pos = stage.globalToLocal(_pos);
+			#end
+			for (index => value in childs) {
+				if (value.onReset()) {
+					var id = value.id * 18;
+
+					_shader.a_dynamicPos.value[id] = _pos.x;
+					_shader.a_dynamicPos.value[id + 1] = _pos.y;
+					_shader.a_dynamicPos.value[id + 2] = 1;
+					_shader.a_dynamicPos.value[id + 3] = _pos.x;
+					_shader.a_dynamicPos.value[id + 4] = _pos.y;
+					_shader.a_dynamicPos.value[id + 5] = 1;
+					_shader.a_dynamicPos.value[id + 6] = _pos.x;
+					_shader.a_dynamicPos.value[id + 7] = _pos.y;
+					_shader.a_dynamicPos.value[id + 8] = 1;
+					_shader.a_dynamicPos.value[id + 9] = _pos.x;
+					_shader.a_dynamicPos.value[id + 10] = _pos.y;
+					_shader.a_dynamicPos.value[id + 11] = 1;
+					_shader.a_dynamicPos.value[id + 12] = _pos.x;
+					_shader.a_dynamicPos.value[id + 13] = _pos.y;
+					_shader.a_dynamicPos.value[id + 14] = 1;
+					_shader.a_dynamicPos.value[id + 15] = _pos.x;
+					_shader.a_dynamicPos.value[id + 16] = _pos.y;
+					_shader.a_dynamicPos.value[id + 17] = 1;
+					var sx = Math.random() * widthRange * 2 - widthRange;
+					var sy = Math.random() * heightRange * 2 - heightRange;
+					var id = value.id * 12;
+
+					_shader.a_pos.value[id] = sx;
+					_shader.a_pos.value[id + 1] = sy;
+					_shader.a_pos.value[id + 2] = sx;
+					_shader.a_pos.value[id + 3] = sy;
+					_shader.a_pos.value[id + 4] = sx;
+					_shader.a_pos.value[id + 5] = sy;
+					_shader.a_pos.value[id + 6] = sx;
+					_shader.a_pos.value[id + 7] = sy;
+					_shader.a_pos.value[id + 8] = sx;
+					_shader.a_pos.value[id + 9] = sy;
+					_shader.a_pos.value[id + 10] = sx;
+					_shader.a_pos.value[id + 11] = sy;
+				}
+			}
+		} else {
+			for (index => value in childs) {
+				if (value.onReset()) {
+					var sx = Math.random() * widthRange * 2 - widthRange;
+					var sy = Math.random() * heightRange * 2 - heightRange;
+					var id = value.id * 12;
+
+					// var posAngle = Math.atan2((-sx), (-sy));
+					var posAngle = Math.atan2((sy), (sx));
+					var ax = acceleration.x.getValue();
+					var ay = acceleration.y.getValue();
+					// 加速力
+					var ax1:Float = Math.cos(posAngle) * ax + Math.sin(posAngle) * ay;
+					var ay1:Float = Math.cos(posAngle) * ay - Math.sin(posAngle) * ax;
+
+					ax = ax1;
+					ay = -ay1;
+					_shader.a_acceleration.value[id] = ax;
+					_shader.a_acceleration.value[id + 1] = ay;
+					_shader.a_acceleration.value[id + 2] = ax;
+					_shader.a_acceleration.value[id + 3] = ay;
+					_shader.a_acceleration.value[id + 4] = ax;
+					_shader.a_acceleration.value[id + 5] = ay;
+					_shader.a_acceleration.value[id + 6] = ax;
+					_shader.a_acceleration.value[id + 7] = ay;
+					_shader.a_acceleration.value[id + 8] = ax;
+					_shader.a_acceleration.value[id + 9] = ay;
+					_shader.a_acceleration.value[id + 10] = ax;
+					_shader.a_acceleration.value[id + 11] = ay;
+					_shader.a_pos.value[id] = sx;
+					_shader.a_pos.value[id + 1] = sy;
+					_shader.a_pos.value[id + 2] = sx;
+					_shader.a_pos.value[id + 3] = sy;
+					_shader.a_pos.value[id + 4] = sx;
+					_shader.a_pos.value[id + 5] = sy;
+					_shader.a_pos.value[id + 6] = sx;
+					_shader.a_pos.value[id + 7] = sy;
+					_shader.a_pos.value[id + 8] = sx;
+					_shader.a_pos.value[id + 9] = sy;
+					_shader.a_pos.value[id + 10] = sx;
+					_shader.a_pos.value[id + 11] = sy;
+				}
 			}
 		}
 		#if zygameui
@@ -190,8 +283,8 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	}
 
 	/**
-	 * 初始化所有粒子
-	 */
+ * 初始化所有粒子
+ */
 	private function _init() {
 		if (texture == null)
 			return;
@@ -238,7 +331,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			uv.push(1);
 			uv.push(0);
 			uv.push(1);
-
+			
 			child.reset();
 		}
 		_vertices = vertices;
@@ -249,9 +342,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		// trace("-坐标", vertices.length, "\n顶点", triangles.length, "\nUV", uv.length);
 		this.graphics.drawTriangles(vertices, triangles, uv);
 		this.graphics.endFill();
-
-		// trace("a_dynamicPos=",this._shader.a_dynamicPos.value);
-		// throw "???";
 	}
 
 	function get_time():Float {
@@ -265,15 +355,15 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 	#if !flash
 	/**
-	 * 重构触摸事件，无法触发触摸的问题
-	 * @param x
-	 * @param y
-	 * @param shapeFlag
-	 * @param stack
-	 * @param interactiveOnly
-	 * @param hitObject
-	 * @return Bool
-	 */
+ * 重构触摸事件，无法触发触摸的问题
+ * @param x
+ * @param y
+ * @param shapeFlag
+ * @param stack
+ * @param interactiveOnly
+ * @param hitObject
+ * @return Bool
+ */
 	override private function __hitTest(x:Float, y:Float, shapeFlag:Bool, stack:Array<DisplayObject>, interactiveOnly:Bool, hitObject:DisplayObject):Bool {
 		return false;
 	}

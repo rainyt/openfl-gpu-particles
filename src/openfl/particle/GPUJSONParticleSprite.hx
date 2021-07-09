@@ -13,7 +13,8 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 	public function new(data:GPUJSONParticleSpriteJSONData) {
 		super();
 		this.data = data;
-		this.loop = true;
+		// 系统持续时长
+		this.duration = data.duration;
 		var random = new GPURandomTwoAttribute(0., 1);
 		// 设置开始颜色
 		this.colorAttribute.start.setColor(data.startColorRed, data.startColorGreen, data.startColorBlue, data.startColorAlpha);
@@ -36,8 +37,9 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		// 设置粒子向量
 		this.velocity.y.asOneAttribute().value = 0;
 		this.velocity.x = new GPURandomTwoAttribute(data.speed - data.speedVariance, data.speed + data.speedVariance);
-		this.gravity.x.asOneAttribute().value = data.gravityx;
-		this.gravity.y.asOneAttribute().value = data.gravityy;
+		this.acceleration.x = new GPURandomTwoAttribute(data.radialAcceleration - data.radialAccelVariance,
+			data.radialAcceleration + data.radialAccelVariance);
+		this.acceleration.y.asOneAttribute().value = 0;
 		// 设置粒子的开始角度
 		this.rotaionAttribute.start = new GPURandomTwoAttribute(data.rotationStart - data.rotationStartVariance,
 			data.rotationStart + data.rotationStartVariance);
@@ -76,7 +78,7 @@ typedef GPUJSONParticleSpriteJSONData = {
 	emitterType:Float,
 	blendFuncSource:Float,
 	finishColorVarianceAlpha:Float,
-    // ok
+	// ok
 	rotationEnd:Float,
 	startColorVarianceBlue:Float,
 	rotatePerSecondVariance:Float,
@@ -125,14 +127,15 @@ typedef GPUJSONParticleSpriteJSONData = {
 	finishParticleSizeVariance:Int,
 	// ok
 	gravityy:Float,
-    // ok
+	// ok
 	rotationEndVariance:Float,
 	// ok
 	startColorBlue:Float,
-    // ok
+	// ok
 	rotationStartVariance:Float,
 	// ok
 	speedVariance:Float,
+	// ok
 	radialAccelVariance:Float,
 	tangentialAccelVariance:Float,
 	// ok
