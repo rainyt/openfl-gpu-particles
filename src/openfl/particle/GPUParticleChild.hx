@@ -62,7 +62,8 @@ class GPUParticleChild {
 		var posAngle = 0.;
 		var sx = Math.random() * sprite.widthRange * 2 - sprite.widthRange;
 		var sy = Math.random() * sprite.heightRange * 2 - sprite.heightRange;
-		posAngle = Math.atan2((sy - 0), (sx - 0));
+		posAngle = -Math.atan2((sy - 0), (sx - 0));
+		// posAngle = -45 * 3.14 / 180;
 		switch (sprite.emitMode) {
 			case Point:
 				angle = sprite.emitRotation.getValue() * Math.PI / 180;

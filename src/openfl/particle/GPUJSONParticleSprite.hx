@@ -36,27 +36,25 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.heightRange = data.sourcePositionVariancey;
 		// 设置粒子向量
 		this.velocity.y.asOneAttribute().value = 0;
-		this.velocity.x = new GPURandomTwoAttribute(data.speed - data.speedVariance, data.speed + data.speedVariance);
-		this.acceleration.x = new GPURandomTwoAttribute(data.radialAcceleration - data.radialAccelVariance,
-			data.radialAcceleration + data.radialAccelVariance);
+		this.velocity.x = new GPURandomTwoAttribute(data.speed, data.speed + data.speedVariance);
+		this.acceleration.x = new GPURandomTwoAttribute(data.radialAcceleration, data.radialAcceleration + data.radialAccelVariance);
 		this.acceleration.y.asOneAttribute().value = 0;
 		// 设置粒子的开始角度
-		this.rotaionAttribute.start = new GPURandomTwoAttribute(data.rotationStart - data.rotationStartVariance,
-			data.rotationStart + data.rotationStartVariance);
-		this.rotaionAttribute.end = new GPURandomTwoAttribute(data.rotationEnd - data.rotationEndVariance, data.rotationEnd + data.rotationEndVariance);
+		this.rotaionAttribute.start = new GPURandomTwoAttribute(data.rotationStart, data.rotationStart + data.rotationStartVariance);
+		this.rotaionAttribute.end = new GPURandomTwoAttribute(data.rotationEnd, data.rotationEnd + data.rotationEndVariance);
 		// 设置粒子发射方向
 		this.emitRotation = new GPURandomTwoAttribute(data.angle - data.angleVariance, data.angle + data.angleVariance);
 	}
 
 	override function start() {
 		// 设置粒子的初始化大小
-		var scale1 = (data.startParticleSize - data.startParticleSizeVariance) / texture.width;
+		var scale1 = (data.startParticleSize) / texture.width;
 		var scale2 = (data.startParticleSize + data.startParticleSizeVariance) / texture.width;
 		var random:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
 		this.scaleXAttribute.start = random;
 		this.scaleYAttribute.start = random;
 		// 设置粒子的结束大小
-		scale1 = (data.finishParticleSize - data.finishParticleSizeVariance) / texture.width;
+		scale1 = (data.finishParticleSize) / texture.width;
 		scale2 = (data.finishParticleSize + data.finishParticleSizeVariance) / texture.width;
 		var random:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
 		this.scaleXAttribute.end = random;
