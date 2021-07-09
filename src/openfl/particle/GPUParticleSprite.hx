@@ -1,5 +1,6 @@
 package openfl.particle;
 
+import openfl.particle.data.*;
 import openfl.geom.Point;
 import openfl.events.Event;
 #if zygame

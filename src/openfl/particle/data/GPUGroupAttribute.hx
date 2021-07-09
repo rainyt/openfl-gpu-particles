@@ -1,4 +1,4 @@
-package openfl.particle;
+package openfl.particle.data;
 
 /**
  * GPU属性组

@@ -1,4 +1,4 @@
-package openfl.particle;
+package openfl.particle.data;
 
 
 interface GPUAttribute {

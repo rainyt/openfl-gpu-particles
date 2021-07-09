@@ -1,6 +1,6 @@
 package openfl.particle;
 
-import openfl.particle.GPUParticleEmitMode;
+import openfl.particle.data.*;
 
 using openfl.particle.Tools;
 

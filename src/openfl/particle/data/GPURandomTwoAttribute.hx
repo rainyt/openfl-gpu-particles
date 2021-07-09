@@ -1,4 +1,4 @@
-package openfl.particle;
+package openfl.particle.data;
 
 /**
  * 两个数值之间的随时值

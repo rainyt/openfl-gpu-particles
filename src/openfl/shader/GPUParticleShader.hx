@@ -209,7 +209,7 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		var uv:Vec2 = 2. / stageSize.xy;
 
 		// 坐标实现
-		var positionNew:Vec2 = pos + velocity * aliveTime + acceleration * aliveTime * aliveTime * 0.5;
+		var positionNew:Vec2 = pos + velocity * aliveTime + acceleration * aliveTime * aliveTime;
 
 		// 动态坐标实现
 		mat[3].x = mat[3].x * (1. - dynamicPos.z) + (dynamicPos.x * uv.x - 1.) * dynamicPos.z;

@@ -1,4 +1,4 @@
-package openfl.particle;
+package openfl.particle.data;
 
 import openfl.geom.Point;
 import openfl.events.Event;

@@ -1,4 +1,4 @@
-package openfl.particle;
+package openfl.particle.data;
 
 class GPUFourAttribute {
 	public var x:GPUAttribute = new GPUOneAttribute(1);
