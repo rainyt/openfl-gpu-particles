@@ -17,9 +17,15 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.duration = data.duration;
 		var random = new GPURandomTwoAttribute(0., 1);
 		// 设置开始颜色
-		this.colorAttribute.start.setColor(data.startColorRed, data.startColorGreen, data.startColorBlue, data.startColorAlpha);
+		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorRed, data.startColorRed + data.startColorVarianceRed);
+		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorGreen, data.startColorGreen + data.startColorVarianceGreen);
+		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorBlue, data.startColorBlue + data.startColorVarianceBlue);
+		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorAlpha, data.startColorAlpha + data.startColorVarianceAlpha);
 		// 设置结束颜色
-		this.colorAttribute.end.setColor(data.finishColorRed, data.finishColorGreen, data.finishColorBlue, data.finishColorAlpha);
+		this.colorAttribute.end.x = new GPURandomTwoAttribute(data.finishColorRed, data.finishColorRed + data.finishColorVarianceRed);
+		this.colorAttribute.end.x = new GPURandomTwoAttribute(data.finishColorGreen, data.finishColorGreen + data.finishColorVarianceGreen);
+		this.colorAttribute.end.x = new GPURandomTwoAttribute(data.finishColorBlue, data.finishColorBlue + data.finishColorVarianceGreen);
+		this.colorAttribute.end.x = new GPURandomTwoAttribute(data.finishColorAlpha, data.finishColorAlpha + data.finishColorVarianceAlpha);
 		// 设置粒子数量
 		this.counts = data.maxParticles;
 		// 设置粒子生命
@@ -71,26 +77,37 @@ typedef GPUJSONParticleSpriteJSONData = {
 	startParticleSizeVariance:Int,
 	// ok
 	startColorGreen:Float,
+	// ?
 	rotatePerSecond:Float,
+	// ok
 	radialAcceleration:Float,
+	// ?
 	yCoordFlipped:Float,
 	// ok
 	emitterType:Float,
+	// ?
 	blendFuncSource:Float,
+	// ok
 	finishColorVarianceAlpha:Float,
 	// ok
 	rotationEnd:Float,
+	// ok
 	startColorVarianceBlue:Float,
 	rotatePerSecondVariance:Float,
 	// ok
 	particleLifespan:Float,
 	minRadius:Float,
 	configName:String,
+	// ok
 	tangentialAcceleration:Float,
+	// ok
 	rotationStart:Float,
+	// ok
 	startColorVarianceGreen:Float,
+	// ok
 	speed:Float,
 	minRadiusVariance:Float,
+	// ok
 	finishColorVarianceBlue:Float,
 	// ok
 	finishColorBlue:Float,
@@ -107,25 +124,29 @@ typedef GPUJSONParticleSpriteJSONData = {
 	sourcePositionVariancey:Float,
 	// ok
 	startColorRed:Float,
+	// ok
 	finishColorVarianceRed:Float,
 	absolutePosition:Bool,
 	textureFileName:String,
+	// ok
 	startColorVarianceAlpha:Float,
 	// ok
 	maxParticles:Int,
+	// ok
 	finishColorVarianceGreen:Float,
 	// ok
 	finishParticleSize:Int,
 	duration:Float,
+	// ok
 	startColorVarianceRed:Float,
 	// ok
 	finishColorRed:Float,
-	// ok
+	// todo
 	gravityx:Float,
 	maxRadiusVariance:Float,
 	// ok
 	finishParticleSizeVariance:Int,
-	// ok
+	// todo
 	gravityy:Float,
 	// ok
 	rotationEndVariance:Float,
@@ -137,10 +158,11 @@ typedef GPUJSONParticleSpriteJSONData = {
 	speedVariance:Float,
 	// ok
 	radialAccelVariance:Float,
+	// ok
 	tangentialAccelVariance:Float,
 	// ok
 	particleLifespanVariance:Float,
-	// ok
+	// okq
 	angleVariance:Float,
 	// ok
 	angle:Float,
