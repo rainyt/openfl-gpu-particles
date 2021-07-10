@@ -113,6 +113,11 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	public var acceleration:GPUTwoAttribute = new GPUTwoAttribute();
 
 	/**
+	 * 切向加速力
+	 */
+	public var tangential:GPUTwoAttribute = new GPUTwoAttribute();
+
+	/**
 	 * 缩放属性ScaleX
 	 */
 	public var scaleXAttribute:GPUGroupAttribute = new GPUGroupAttribute(new GPUOneAttribute(1), new GPUOneAttribute(1));
@@ -212,6 +217,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		_shader.a_rota.value = [];
 		_shader.a_startColor.value = [];
 		_shader.a_endColor.value = [];
+		_shader.a_tangential.value = [];
 		childs = [];
 		for (i in 0...counts) {
 			var child = new GPUParticleChild(this, i);

@@ -57,12 +57,15 @@ class GPUParticleChild {
 		var vy = 0.;
 		var ax = 0.;
 		var ay = 0.;
+		var tx = 0.;
+		var ty = 0.;
 		var angle = 0.;
 		// 点与中心的角度
 		var posAngle = 0.;
 		var sx = Math.random() * sprite.widthRange * 2 - sprite.widthRange;
 		var sy = Math.random() * sprite.heightRange * 2 - sprite.heightRange;
 		posAngle = -Math.atan2((sy - 0), (sx - 0));
+		var posAngle2 = Math.atan2((sx - 0), (sy - 0));
 		// posAngle = -45 * 3.14 / 180;
 		switch (sprite.emitMode) {
 			case Point:
@@ -71,6 +74,8 @@ class GPUParticleChild {
 				vy = sprite.velocity.y.getValue();
 				ax = sprite.acceleration.x.getValue();
 				ay = sprite.acceleration.y.getValue();
+				tx = sprite.tangential.x.getValue();
+				ty = sprite.tangential.y.getValue();
 			default:
 				angle = sprite.emitRotation.getValue() * Math.PI / 180;
 				vx = sprite.velocity.x.getValue();
@@ -90,6 +95,12 @@ class GPUParticleChild {
 		var ay1:Float = Math.cos(posAngle) * ay - Math.sin(posAngle) * ax;
 		ax = ax1;
 		ay = ay1;
+
+		// 切向力
+		var tx1:Float = Math.cos(posAngle2) * tx + Math.sin(posAngle2) * ty;
+		var ty1:Float = Math.cos(posAngle2) * ty - Math.sin(posAngle2) * tx;
+		tx = tx1;
+		ty = ty1;
 
 		var scaleXstart:Float = sprite.scaleXAttribute.start.getValue();
 		var scaleYstart:Float = sprite.scaleYAttribute.start == sprite.scaleXAttribute.start ? scaleXstart : sprite.scaleYAttribute.start.getValue();
@@ -138,7 +149,10 @@ class GPUParticleChild {
 			// 移动向量
 			sprite._shader.a_velocity.value[index2] = (vx);
 			sprite._shader.a_velocity.value[index2 + 1] = (vy);
-			// 重力
+			// 切向加速力
+			sprite._shader.a_tangential.value[index2] = tx;
+			sprite._shader.a_tangential.value[index2 + 1] = ty;
+			// 加速力
 			sprite._shader.a_acceleration.value[index2] = (ax);
 			sprite._shader.a_acceleration.value[index2 + 1] = (ay);
 			// 粒子生存时间

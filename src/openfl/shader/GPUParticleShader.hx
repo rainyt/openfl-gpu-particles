@@ -53,6 +53,11 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 	@:attribute public var acceleration:Vec2;
 
 	/**
+	 * 切向向量
+	 */
+	@:attribute public var tangential:Vec2;
+
+	/**
 	 * scaleXY属性，开始scale大小，scaleX[start],scaleX[end],scaleY[start],scaleY[end]
 	 */
 	@:attribute public var scaleXXYY:Vec4;
@@ -209,7 +214,7 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		var uv:Vec2 = 2. / stageSize.xy;
 
 		// 坐标实现
-		var positionNew:Vec2 = pos + velocity * aliveTime + acceleration * aliveTime * aliveTime;
+		var positionNew:Vec2 = pos + velocity * aliveTime + (acceleration + tangential) * aliveTime * aliveTime;
 
 		// 动态坐标实现
 		mat[3].x = mat[3].x * (1. - dynamicPos.z) + (dynamicPos.x * uv.x - 1.) * dynamicPos.z;

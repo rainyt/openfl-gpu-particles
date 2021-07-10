@@ -39,6 +39,8 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.velocity.x = new GPURandomTwoAttribute(data.speed, data.speed + data.speedVariance);
 		this.acceleration.x = new GPURandomTwoAttribute(data.radialAcceleration, data.radialAcceleration + data.radialAccelVariance);
 		this.acceleration.y.asOneAttribute().value = 0;
+		this.tangential.x = new GPURandomTwoAttribute(data.tangentialAcceleration, data.tangentialAcceleration + data.tangentialAccelVariance);
+		this.tangential.y.asOneAttribute().value = 0;
 		// 设置粒子的开始角度
 		this.rotaionAttribute.start = new GPURandomTwoAttribute(data.rotationStart, data.rotationStart + data.rotationStartVariance);
 		this.rotaionAttribute.end = new GPURandomTwoAttribute(data.rotationEnd, data.rotationEnd + data.rotationEndVariance);
