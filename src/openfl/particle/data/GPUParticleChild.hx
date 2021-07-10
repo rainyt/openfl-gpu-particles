@@ -102,6 +102,9 @@ class GPUParticleChild {
 		tx = tx1;
 		ty = ty1;
 
+		var gx = sprite.gravity.x.getValue();
+		var gy = sprite.gravity.y.getValue();
+
 		var scaleXstart:Float = sprite.scaleXAttribute.start.getValue();
 		var scaleYstart:Float = sprite.scaleYAttribute.start == sprite.scaleXAttribute.start ? scaleXstart : sprite.scaleYAttribute.start.getValue();
 		var scaleXend:Float = sprite.scaleXAttribute.end.getValue();
@@ -149,9 +152,11 @@ class GPUParticleChild {
 			// 移动向量
 			sprite._shader.a_velocity.value[index2] = (vx);
 			sprite._shader.a_velocity.value[index2 + 1] = (vy);
-			// 切向加速力
-			sprite._shader.a_tangential.value[index2] = tx;
-			sprite._shader.a_tangential.value[index2 + 1] = ty;
+			// 重力以及切向加速力
+			sprite._shader.a_gravityxAndTangential.value[index4] = gx;
+			sprite._shader.a_gravityxAndTangential.value[index4 + 1] = gy;
+			sprite._shader.a_gravityxAndTangential.value[index4 + 2] = tx;
+			sprite._shader.a_gravityxAndTangential.value[index4 + 3] = ty;
 			// 加速力
 			sprite._shader.a_acceleration.value[index2] = (ax);
 			sprite._shader.a_acceleration.value[index2 + 1] = (ay);

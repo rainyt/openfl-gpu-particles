@@ -217,7 +217,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		_shader.a_rota.value = [];
 		_shader.a_startColor.value = [];
 		_shader.a_endColor.value = [];
-		_shader.a_tangential.value = [];
+		_shader.a_gravityxAndTangential.value = [];
 		childs = [];
 		for (i in 0...counts) {
 			var child = new GPUParticleChild(this, i);
