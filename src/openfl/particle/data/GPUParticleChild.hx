@@ -119,6 +119,9 @@ class GPUParticleChild {
 		this.life = rlife;
 		this.random = r;
 
+		// 最大生命周期
+		var dlife = Std.int(sprite.duration / this.life) * this.life;
+
 		var startColor1 = sprite.colorAttribute.start.x.getValue();
 		var startColor2 = sprite.colorAttribute.start.y.getValue();
 		var startColor3 = sprite.colorAttribute.start.z.getValue();
@@ -161,7 +164,8 @@ class GPUParticleChild {
 			sprite._shader.a_acceleration.value[index2] = (ax);
 			sprite._shader.a_acceleration.value[index2 + 1] = (ay);
 			// 粒子生存时间
-			sprite._shader.a_life.value[index1] = (rlife);
+			sprite._shader.a_lifeAndDuration.value[index2] = (rlife);
+			sprite._shader.a_lifeAndDuration.value[index2 + 1] = (dlife);
 			// 初始化位置
 			sprite._shader.a_pos.value[index2] = (sx);
 			sprite._shader.a_pos.value[index2 + 1] = (sy);

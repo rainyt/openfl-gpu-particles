@@ -63,9 +63,9 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 	@:attribute public var scaleXXYY:Vec4;
 
 	/**
-	 * 粒子时长，秒
+	 * 粒子时长，秒，总持续时长
 	 */
-	@:attribute public var life:Float;
+	@:attribute public var lifeAndDuration:Vec2;
 
 	/**
 	 * 当前运行时
@@ -178,12 +178,12 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		super.vertex();
 
 		// 生命
-		var nowtime:Float = time - life * random;
-		var aliveTime:Float = mod(nowtime, life);
+		var nowtime:Float = time - lifeAndDuration.x * random;
+		var aliveTime:Float = mod(nowtime, lifeAndDuration.x);
 		aliveTime = aliveTime * step(0, nowtime);
 
 		// 剩余的生命周期
-		this.outlife = (life - aliveTime) / life;
+		this.outlife = (lifeAndDuration.x - aliveTime) / lifeAndDuration.x;
 		var ooutlife:Float = 1 - outlife;
 
 		colorv = startColor + (endColor - startColor) * ooutlife;
@@ -194,7 +194,7 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		lifeAlpha = 1;
 
 		// 非循环
-		if (loop == 0 && nowtime >= life || nowtime < 0) {
+		if (loop == 0 && nowtime >= lifeAndDuration.y || nowtime < 0) {
 			lifeAlpha = 0;
 		}
 
