@@ -1,5 +1,6 @@
 package openfl.particle;
 
+import openfl.display.BitmapData;
 import openfl.particle.data.*;
 
 using openfl.particle.Tools;
@@ -10,9 +11,10 @@ using openfl.particle.Tools;
 class GPUJSONParticleSprite extends GPUParticleSprite {
 	public var data:GPUJSONParticleSpriteJSONData;
 
-	public function new(data:GPUJSONParticleSpriteJSONData) {
+	public function new(data:GPUJSONParticleSpriteJSONData, texture:BitmapData = null) {
 		super();
 		this.data = data;
+		this.texture = texture;
 		// 系统持续时长
 		this.duration = data.duration;
 		if (this.duration < data.particleLifespan + data.particleLifespanVariance) {
@@ -76,9 +78,13 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 	}
 }
 
+/**
+ * 通用粒子数据格式
+ */
 typedef GPUJSONParticleSpriteJSONData = {
 	// ok
 	startColorAlpha:Float,
+	// ok
 	startParticleSizeVariance:Int,
 	// ok
 	startColorGreen:Float,
@@ -131,6 +137,7 @@ typedef GPUJSONParticleSpriteJSONData = {
 	startColorRed:Float,
 	// ok
 	finishColorVarianceRed:Float,
+	// ?
 	absolutePosition:Bool,
 	textureFileName:String,
 	// ok
@@ -167,7 +174,7 @@ typedef GPUJSONParticleSpriteJSONData = {
 	tangentialAccelVariance:Float,
 	// ok
 	particleLifespanVariance:Float,
-	// okq
+	// ok
 	angleVariance:Float,
 	// ok
 	angle:Float,

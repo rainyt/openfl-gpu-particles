@@ -1,11 +1,15 @@
 package;
 
+import openfl.particle.events.ParticleEvent;
+import haxe.Json;
 import openfl.events.MouseEvent;
 import openfl.particle.GPUParticleSprite;
-import openfl.particle.GPURandomTwoAttribute;
+import openfl.particle.data.GPURandomTwoAttribute;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.utils.Assets;
+
+using openfl.particle.Tools;
 
 /**
  * SpineDemo
@@ -21,7 +25,7 @@ class Main extends Sprite {
 		Assets.loadBitmapData("assets/texture.png").onComplete(function(texture) {
 			// 创建一个粒子对象
 			var gpuSystem:GPUParticleSprite = null;
-			for (i in 0...10) {
+			for (i in 0...1) {
 				gpuSystem = new GPUParticleSprite();
 				// gpuSystem.scaleX = 0.1;
 				// gpuSystem.scaleY = 0.1;
@@ -35,13 +39,15 @@ class Main extends Sprite {
 				// 设置粒子数量
 				gpuSystem.counts = 50;
 				// 设置是否循环
-				gpuSystem.loop = true;
+				gpuSystem.duration = -1;
 				// 设置粒子方向范围
-				gpuSystem.velocity.x = 100;
-				gpuSystem.velocity.y = 100;
+				gpuSystem.velocity.x.asOneAttribute().value = 100;
+				gpuSystem.velocity.y.asOneAttribute().value = 100;
 				// 设置粒子重力
-				gpuSystem.gravity.x = 200;
-				gpuSystem.gravity.y = 200;
+				gpuSystem.gravity.x.asOneAttribute().value = 200;
+				gpuSystem.gravity.y.asOneAttribute().value = 200;
+				// 设置切向
+				gpuSystem.tangential.x.asOneAttribute().value = 200;
 				// 设置粒子的生命力
 				gpuSystem.life = 1;
 				// 设置粒子的初始点范围
@@ -70,6 +76,21 @@ class Main extends Sprite {
 
 			stage.addEventListener(MouseEvent.MOUSE_UP, function(e) {
 				this.stopDrag();
+			});
+
+			// JSON粒子DEMO
+			Assets.loadText("assets/fish31_lizi.json").onComplete(function(data) {
+				// Create JSON Particle
+				var jsonParticle = GPUParticleSprite.fromJson(Json.parse(data), texture);
+				this.addChild(jsonParticle);
+				jsonParticle.x = stage.stageWidth / 2;
+				jsonParticle.y = stage.stageHeight / 2;
+				jsonParticle.start();
+
+				// Stop event
+				jsonParticle.addEventListener(ParticleEvent.STOP,function(data){
+					trace("stop!");
+				});
 			});
 		});
 	}

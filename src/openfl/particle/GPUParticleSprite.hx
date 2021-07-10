@@ -24,8 +24,8 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	 * 通过JSON解析GPU粒子
 	 * @param json 
 	 */
-	public static function fromJson(json:Dynamic):GPUJSONParticleSprite {
-		return new GPUJSONParticleSprite(json);
+	public static function fromJson(json:Dynamic, texture:BitmapData = null):GPUJSONParticleSprite {
+		return new GPUJSONParticleSprite(json, texture);
 	}
 
 	/**
