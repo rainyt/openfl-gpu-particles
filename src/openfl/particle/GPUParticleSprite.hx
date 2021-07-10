@@ -14,6 +14,7 @@ import openfl.display.BitmapData;
 import openfl.shader.GPUParticleShader;
 import openfl.display.Sprite;
 import VectorMath;
+import openfl.particle.events.ParticleEvent;
 
 /**
  * GPU粒子系统
@@ -152,6 +153,11 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 	private var _pos:Point = new Point();
 
+	/**
+	 * 粒子存活数量
+	 */
+	public var particleLiveCounts:Int;
+
 	public function new() {
 		super();
 		_shader = new GPUParticleShader();
@@ -187,7 +193,11 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 	public function onFrame(#if !zygameui e:Event #end) {
 		this.time += 1 / 60;
+		particleLiveCounts = 0;
 		for (index => value in childs) {
+			if (!value.isDie()) {
+				particleLiveCounts++;
+			}
 			if (value.onReset()) {
 				value.reset();
 			}
@@ -202,8 +212,10 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			value.update(value.shader);
 		}
 		this.invalidate();
-		if (this.duration != -1 && this.time > this.duration) {
+		if (this.duration != -1 && particleLiveCounts == 0) {
+			this.time = 0;
 			this.stop();
+			this.dispatchEvent(new ParticleEvent(ParticleEvent.STOP));
 		}
 	}
 

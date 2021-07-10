@@ -12,6 +12,11 @@ class GPUParticleChild {
 	public var life:Float = 0;
 
 	/**
+	 * 最大生存
+	 */
+	public var maxlife:Float = 0;
+
+	/**
 	 * 随机粒子
 	 */
 	public var random:Float = 0;
@@ -28,6 +33,14 @@ class GPUParticleChild {
 	public function new(sprite:GPUParticleSprite, id:Int) {
 		this.id = id;
 		this.sprite = sprite;
+	}
+
+	/**
+	 * 该粒子是否已经死亡
+	 * @return Bool
+	 */
+	public function isDie():Bool {
+		return maxlife != -1 && this.sprite.time > maxlife + life;
 	}
 
 	/**
@@ -120,7 +133,12 @@ class GPUParticleChild {
 		this.random = r;
 
 		// 最大生命周期
-		var dlife = Std.int(sprite.duration / this.life - 1) * this.life;
+		if (sprite.duration == -1) {
+			this.maxlife = -1;
+		} else {
+			var dlife = Std.int(sprite.duration / this.life) * this.life;
+			this.maxlife = dlife;
+		}
 
 		var startColor1 = sprite.colorAttribute.start.x.getValue();
 		var startColor2 = sprite.colorAttribute.start.y.getValue();
@@ -165,7 +183,7 @@ class GPUParticleChild {
 			sprite._shader.a_acceleration.value[index2 + 1] = (ay);
 			// 粒子生存时间
 			sprite._shader.a_lifeAndDuration.value[index2] = (rlife);
-			sprite._shader.a_lifeAndDuration.value[index2 + 1] = (dlife);
+			sprite._shader.a_lifeAndDuration.value[index2 + 1] = (maxlife);
 			// 初始化位置
 			sprite._shader.a_pos.value[index2] = (sx);
 			sprite._shader.a_pos.value[index2 + 1] = (sy);

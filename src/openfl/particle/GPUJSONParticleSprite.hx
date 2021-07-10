@@ -15,6 +15,9 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.data = data;
 		// 系统持续时长
 		this.duration = data.duration;
+		if (this.duration < data.particleLifespan + data.particleLifespanVariance) {
+			this.duration = data.particleLifespan + data.particleLifespanVariance;
+		}
 		var random = new GPURandomTwoAttribute(0., 1);
 		// 设置开始颜色
 		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorRed, data.startColorRed + data.startColorVarianceRed);
