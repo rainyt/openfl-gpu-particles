@@ -31,3 +31,12 @@ Assets.loadText("assets/fish31_lizi.json").onComplete(function(data) {
   });
 });
 ```
+
+### 事件流
+为粒子系统添加了粒子事件，如播放完成事件：
+```haxe
+// Stop event
+jsonParticle.addEventListener(ParticleEvent.STOP,function(data){
+  trace("stop!");
+});
+```
