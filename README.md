@@ -15,3 +15,19 @@
 # 路线图
 ### GPUParticleSprite.fromJson
 现在可以通过fromJson来加载一些通用JSON格式的粒子特效，例如`Particle Designer`等通用工具生成的粒子文件，但部分参数仍然在开发当中。
+```haxe
+// JSON粒子DEMO
+Assets.loadText("assets/fish31_lizi.json").onComplete(function(data) {
+  // Create JSON Particle
+  var jsonParticle = GPUParticleSprite.fromJson(Json.parse(data), texture);
+  this.addChild(jsonParticle);
+  jsonParticle.x = stage.stageWidth / 2;
+  jsonParticle.y = stage.stageHeight / 2;
+  jsonParticle.start();
+
+  // Stop event
+  jsonParticle.addEventListener(ParticleEvent.STOP,function(data){
+    trace("stop!");
+  });
+});
+```
