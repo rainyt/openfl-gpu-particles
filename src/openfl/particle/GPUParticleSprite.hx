@@ -28,6 +28,13 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	}
 
 	/**
+	 * 是否正在播放
+	 */
+	public var isPlay(get, never):Bool;
+
+	private var _isPlay:Bool = false;
+
+	/**
 	 * 子粒子
 	 */
 	public var childs:Array<GPUParticleChild>;
@@ -161,6 +168,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	 */
 	public function start() {
 		this._init();
+		_isPlay = true;
 		#if zygame
 		Start.current.addToUpdate(this);
 		#else
@@ -169,6 +177,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	}
 
 	public function stop() {
+		_isPlay = false;
 		#if zygame
 		Start.current.removeToUpdate(this);
 		#else
@@ -193,6 +202,9 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			value.update(value.shader);
 		}
 		this.invalidate();
+		if (this.duration != -1 && this.time > this.duration) {
+			this.stop();
+		}
 	}
 
 	/**
@@ -281,5 +293,9 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 	function get_loop():Bool {
 		return duration == -1;
+	}
+
+	function get_isPlay():Bool {
+		return _isPlay;
 	}
 }

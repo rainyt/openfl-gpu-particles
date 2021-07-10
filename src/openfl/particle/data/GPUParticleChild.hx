@@ -120,7 +120,7 @@ class GPUParticleChild {
 		this.random = r;
 
 		// 最大生命周期
-		var dlife = Std.int(sprite.duration / this.life) * this.life;
+		var dlife = Std.int(sprite.duration / this.life - 1) * this.life;
 
 		var startColor1 = sprite.colorAttribute.start.x.getValue();
 		var startColor2 = sprite.colorAttribute.start.y.getValue();
