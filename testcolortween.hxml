@@ -1,0 +1,5 @@
+--class-path src
+--class-path test
+--interp
+--library vector-math
+--main TestColorTween

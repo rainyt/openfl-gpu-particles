@@ -31,7 +31,7 @@ class Main extends Sprite {
 				// gpuSystem.scaleY = 0.1;
 				this.addChild(gpuSystem);
 				// 设置粒子动态更新
-				gpuSystem.dynamicEmitPoint = i == 9;
+				gpuSystem.dynamicEmitPoint = true;
 				// 设置粒子的发生方式
 				gpuSystem.emitMode = Point;
 				// 设置粒子的纹理

@@ -200,6 +200,11 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			}
 			if (value.onReset()) {
 				value.reset();
+			} else {
+				if (colorAttribute.hasTween()) {
+					// 存在过渡
+					value.updateTweenColor();
+				}
 			}
 		}
 		#if zygameui
@@ -225,6 +230,10 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	private function _init() {
 		if (texture == null)
 			return;
+		this.colorAttribute.tween.updateWeight();
+		this.scaleXAttribute.tween.updateWeight();
+		this.scaleYAttribute.tween.updateWeight();
+		this.rotaionAttribute.tween.updateWeight();
 		_shader.data.bitmap.input = texture;
 		this.graphics.clear();
 		this.graphics.beginShaderFill(_shader);
@@ -237,11 +246,12 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		_shader.a_pos.value = [];
 		_shader.a_scaleXXYY.value = [];
 		_shader.a_dynamicPos.value = [];
-		_shader.a_rota.value = [];
+		_shader.a_rotaAndColorDToffest.value = [];
 		_shader.a_startColor.value = [];
 		_shader.a_endColor.value = [];
 		_shader.a_gravityxAndTangential.value = [];
 		_shader.a_lifeAndDuration.value = [];
+		// _shader.a_colorDToffest.value = [];
 		childs = [];
 		for (i in 0...counts) {
 			var child = new GPUParticleChild(this, i);
@@ -309,5 +319,12 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 	function get_isPlay():Bool {
 		return _isPlay;
+	}
+
+	public function dispose():Void {
+		for (index => value in this.childs) {
+			value.dispose();
+		}
+		this.childs = null;
 	}
 }

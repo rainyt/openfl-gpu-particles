@@ -23,9 +23,14 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 	@:attribute public var endColor:Vec4;
 
 	/**
-	 * 旋转角度，x=开始角度，y=结束角度
+	 * 颜色的差值
 	 */
-	@:attribute public var rota:Vec2;
+	// @:attribute public var colorDToffest:Vec2;
+
+	/**
+	 * 旋转角度，x=开始角度，y=结束角度，z=颜色过渡开始差值，w=颜色过渡结束差值
+	 */
+	@:attribute public var rotaAndColorDToffest:Vec4;
 
 	/**
 	 * 动态点，如果z为0时，则使用动态点，不使用原坐标
@@ -186,7 +191,11 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		this.outlife = (lifeAndDuration.x - aliveTime) / lifeAndDuration.x;
 		var ooutlife:Float = 1 - outlife;
 
-		colorv = startColor + (endColor - startColor) * ooutlife;
+		var startlifeOffect:Float = rotaAndColorDToffest.z;
+		var endlifeOffect:Float = rotaAndColorDToffest.w;
+		var tweenScale:Float = endlifeOffect - startlifeOffect;
+		var coutlife:Float = (ooutlife - startlifeOffect) / tweenScale;
+		colorv = startColor + (endColor - startColor) * coutlife;
 
 		// 准备原坐标
 		var mat:Mat4 = gl_openfl_Matrix;
@@ -204,8 +213,9 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		var s:Mat4 = scale(sx, sy);
 
 		// 角度：开始角度 + (最终角度 - 开始角度) * 剩余生命
-		var endrotaion:Float = (rota.y - rota.x);
-		var d:Mat4 = rotaion(rota.x + endrotaion * outlife, vec3(0, 0, 1), vec3(sx * gl_openfl_TextureSize.x * 0.5, sy * gl_openfl_TextureSize.y * 0.5, 0));
+		var endrotaion:Float = (rotaAndColorDToffest.y - rotaAndColorDToffest.x);
+		var d:Mat4 = rotaion(rotaAndColorDToffest.x + endrotaion * outlife, vec3(0, 0, 1),
+			vec3(sx * gl_openfl_TextureSize.x * 0.5, sy * gl_openfl_TextureSize.y * 0.5, 0));
 
 		// 平移
 		var smove:Vec2 = vec2((sx - 1.) * 0.25 * 0.25 * gl_openfl_TextureSize.x, (sy - 1.) * 0.25 * 0.25 * gl_openfl_TextureSize.y);

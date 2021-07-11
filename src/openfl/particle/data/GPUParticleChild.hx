@@ -12,6 +12,11 @@ class GPUParticleChild {
 	public var life:Float = 0;
 
 	/**
+	 * 当前粒子的生命周期
+	 */
+	public var aliveTime:Float = 0;
+
+	/**
 	 * 最大生存
 	 */
 	public var maxlife:Float = 0;
@@ -50,7 +55,7 @@ class GPUParticleChild {
 	public function onReset():Bool {
 		var nowtime:Float = sprite.time - life * random;
 		if (_init) {
-			var aliveTime:Float = mod(nowtime, life);
+			aliveTime = mod(nowtime, life);
 			aliveTime = aliveTime * step(0, nowtime);
 			if (aliveTime > 0 && lastLife >= aliveTime) {
 				lastLife = aliveTime;
@@ -64,8 +69,74 @@ class GPUParticleChild {
 		return false;
 	}
 
+	/**
+	 * 更新过渡颜色
+	 */
+	public function updateTweenColor():Void {
+		var index2 = id * 12;
+		var index4 = id * 24;
+
+		var tscale = aliveTime / life;
+		var data = sprite.colorAttribute.getStartAndEndTweenColor(tscale);
+
+		// 最终比例捡取当前比例，得到当前颜色过渡的比例值
+		// var tweenScale = data.endoffest - data.startoffest;
+		// 当前比例值捡取开始比例值，得到当前比例值0
+		// var tweenStart = aliveTime - data.startoffest;
+		// 比率
+		// var tweenScale2 = tscale / tweenStart;
+
+		var start:GPUFourAttribute = data.start;
+		var end:GPUFourAttribute = data.end;
+		var startColor1 = start.x.getValue();
+		var startColor2 = start.y.getValue();
+		var startColor3 = start.z.getValue();
+		var startColor4 = start.w.getValue();
+
+		var endColor1 = end.x.getValue();
+		var endColor2 = end.y.getValue();
+		var endColor3 = end.z.getValue();
+		var endColor4 = end.w.getValue();
+
+		// var c1 = (endColor1 - startColor1) / tweenScale * data.startoffest / tweenScale2;
+		// var c2 = (endColor2 - startColor2) / tweenScale * data.startoffest / tweenScale2;
+		// var c3 = (endColor3 - startColor3) / tweenScale * data.startoffest / tweenScale2;
+		// var c4 = (endColor4 - startColor4) / tweenScale * data.startoffest / tweenScale2;
+		// startColor1 -= c1;
+		// startColor2 -= c2;
+		// startColor3 -= c3;
+		// startColor4 -= c4;
+
+		// var c1 = (endColor1 - startColor1) / tweenScale * (1 - data.endoffest) / tweenScale2;
+		// var c2 = (endColor2 - startColor2) / tweenScale * (1 - data.endoffest) / tweenScale2;
+		// var c3 = (endColor3 - startColor3) / tweenScale * (1 - data.endoffest) / tweenScale2;
+		// var c4 = (endColor4 - startColor4) / tweenScale * (1 - data.endoffest) / tweenScale2;
+		// endColor1 += c1;
+		// endColor2 += c2;
+		// endColor3 += c3;
+		// endColor4 += c4;
+
+		// 颜色过渡
+		for (i in 0...6) {
+			// 颜色过渡时差
+			sprite._shader.a_rotaAndColorDToffest.value[index4 + 2] = data.startoffest;
+			sprite._shader.a_rotaAndColorDToffest.value[index4 + 3] = data.endoffest;
+			// 颜色
+			sprite._shader.a_startColor.value[index4] = (startColor1);
+			sprite._shader.a_startColor.value[index4 + 1] = (startColor2);
+			sprite._shader.a_startColor.value[index4 + 2] = (startColor3);
+			sprite._shader.a_startColor.value[index4 + 3] = (startColor4);
+			sprite._shader.a_endColor.value[index4] = (endColor1);
+			sprite._shader.a_endColor.value[index4 + 1] = (endColor2);
+			sprite._shader.a_endColor.value[index4 + 2] = (endColor3);
+			sprite._shader.a_endColor.value[index4 + 3] = (endColor4);
+			index4 += 4;
+			index2 += 2;
+		}
+	}
+
 	public function reset():Void {
-		var r = Math.random();
+		var r = random == 0 ? Math.random() : random;
 		var vx = 0.;
 		var vy = 0.;
 		var ax = 0.;
@@ -156,6 +227,9 @@ class GPUParticleChild {
 		var index4 = id * 24;
 
 		for (i in 0...6) {
+			// 颜色过渡时差
+			sprite._shader.a_rotaAndColorDToffest.value[index4 + 2] = 0;
+			sprite._shader.a_rotaAndColorDToffest.value[index4 + 3] = 1;
 			// 颜色过渡
 			sprite._shader.a_startColor.value[index4] = (startColor1);
 			sprite._shader.a_startColor.value[index4 + 1] = (startColor2);
@@ -166,8 +240,8 @@ class GPUParticleChild {
 			sprite._shader.a_endColor.value[index4 + 2] = (endColor3);
 			sprite._shader.a_endColor.value[index4 + 3] = (endColor4);
 			// 角度
-			sprite._shader.a_rota.value[index2] = (startRotaion);
-			sprite._shader.a_rota.value[index2 + 1] = (endRotaion);
+			sprite._shader.a_rotaAndColorDToffest.value[index4] = (startRotaion);
+			sprite._shader.a_rotaAndColorDToffest.value[index4 + 1] = (endRotaion);
 			// 随机值
 			sprite._shader.a_random.value[index1] = (r);
 			// 移动向量
@@ -207,5 +281,9 @@ class GPUParticleChild {
 			index3 += 3;
 			index4 += 4;
 		}
+	}
+
+	public function dispose():Void {
+		sprite = null;
 	}
 }
