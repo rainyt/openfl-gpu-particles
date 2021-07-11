@@ -40,6 +40,7 @@ class GPUGroupFourAttribute {
 	 * @param aliveTimeScale 
 	 */
 	public function getStartAndEndTweenColor(aliveTimeScale:Float):{
+		id:Int,
 		startoffest:Float,
 		endoffest:Float,
 		start:GPUFourAttribute,
@@ -49,6 +50,7 @@ class GPUGroupFourAttribute {
 			if (value.aliveTimeScale >= aliveTimeScale) {
 				if (index == 0)
 					return {
+						id: index,
 						startoffest: 0,
 						endoffest: value.asFourAttribute().aliveTimeScale,
 						start: start,
@@ -56,6 +58,7 @@ class GPUGroupFourAttribute {
 					};
 				else
 					return {
+						id: index,
 						startoffest: tween.attributes[index - 1].asFourAttribute().aliveTimeScale,
 						endoffest: value.asFourAttribute().aliveTimeScale,
 						start: tween.attributes[index - 1].asFourAttribute().attribute,
@@ -64,6 +67,7 @@ class GPUGroupFourAttribute {
 			}
 		}
 		return {
+			id: -1,
 			startoffest: 0,
 			endoffest: 1,
 			start: start,
