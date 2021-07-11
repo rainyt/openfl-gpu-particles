@@ -268,7 +268,9 @@ class GPUParticleChild {
 			index4 += 4;
 		}
 
-		updateTweenColor();
+		if (sprite.colorAttribute.hasTween()) {
+			updateTweenColor();
+		}
 	}
 
 	public function dispose():Void {
