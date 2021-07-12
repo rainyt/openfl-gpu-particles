@@ -22,16 +22,16 @@ class Main extends Sprite {
 
 	public function onInit(e:Event):Void {
 		stage.color = 0x0;
-		Assets.loadBitmapData("assets/texture.png").onComplete(function(texture) {
+		Assets.loadBitmapData("assets/caidai.png").onComplete(function(texture) {
 			// 创建一个粒子对象
 			var gpuSystem:GPUParticleSprite = null;
-			for (i in 0...1) {
+			for (i in 0...0) {
 				gpuSystem = new GPUParticleSprite();
 				// gpuSystem.scaleX = 0.1;
 				// gpuSystem.scaleY = 0.1;
 				this.addChild(gpuSystem);
 				// 设置粒子动态更新
-				gpuSystem.dynamicEmitPoint = true;
+				gpuSystem.dynamicEmitPoint = false;
 				// 设置粒子的发生方式
 				gpuSystem.emitMode = Point;
 				// 设置粒子的纹理
@@ -71,7 +71,8 @@ class Main extends Sprite {
 			}
 
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, function(e) {
-				gpuSystem.startDrag();
+				if (gpuSystem != null)
+					gpuSystem.startDrag();
 			});
 
 			stage.addEventListener(MouseEvent.MOUSE_UP, function(e) {
@@ -79,7 +80,7 @@ class Main extends Sprite {
 			});
 
 			// JSON粒子DEMO
-			Assets.loadText("assets/fish31_lizi.json").onComplete(function(data) {
+			Assets.loadText("assets/caidai.json").onComplete(function(data) {
 				// Create JSON Particle
 				var jsonParticle = GPUParticleSprite.fromJson(Json.parse(data), texture);
 				this.addChild(jsonParticle);
@@ -87,8 +88,10 @@ class Main extends Sprite {
 				jsonParticle.y = stage.stageHeight / 2;
 				jsonParticle.start();
 
+				trace("isLoop", jsonParticle.loop, jsonParticle.duration);
+
 				// Stop event
-				jsonParticle.addEventListener(ParticleEvent.STOP,function(data){
+				jsonParticle.addEventListener(ParticleEvent.STOP, function(data) {
 					trace("stop!");
 				});
 			});

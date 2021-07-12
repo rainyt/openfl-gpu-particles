@@ -17,20 +17,17 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.texture = texture;
 		// 系统持续时长
 		this.duration = data.duration;
-		if (this.duration < data.particleLifespan + data.particleLifespanVariance) {
-			this.duration = data.particleLifespan + data.particleLifespanVariance;
-		}
 		var random = new GPURandomTwoAttribute(0., 1);
 		// 设置开始颜色
 		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorRed, data.startColorRed + data.startColorVarianceRed);
-		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorGreen, data.startColorGreen + data.startColorVarianceGreen);
-		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorBlue, data.startColorBlue + data.startColorVarianceBlue);
-		this.colorAttribute.start.x = new GPURandomTwoAttribute(data.startColorAlpha, data.startColorAlpha + data.startColorVarianceAlpha);
+		this.colorAttribute.start.y = new GPURandomTwoAttribute(data.startColorGreen, data.startColorGreen + data.startColorVarianceGreen);
+		this.colorAttribute.start.z = new GPURandomTwoAttribute(data.startColorBlue, data.startColorBlue + data.startColorVarianceBlue);
+		this.colorAttribute.start.w = new GPURandomTwoAttribute(data.startColorAlpha, data.startColorAlpha + data.startColorVarianceAlpha);
 		// 设置结束颜色
 		this.colorAttribute.end.x = new GPURandomTwoAttribute(data.finishColorRed, data.finishColorRed + data.finishColorVarianceRed);
-		this.colorAttribute.end.x = new GPURandomTwoAttribute(data.finishColorGreen, data.finishColorGreen + data.finishColorVarianceGreen);
-		this.colorAttribute.end.x = new GPURandomTwoAttribute(data.finishColorBlue, data.finishColorBlue + data.finishColorVarianceGreen);
-		this.colorAttribute.end.x = new GPURandomTwoAttribute(data.finishColorAlpha, data.finishColorAlpha + data.finishColorVarianceAlpha);
+		this.colorAttribute.end.y = new GPURandomTwoAttribute(data.finishColorGreen, data.finishColorGreen + data.finishColorVarianceGreen);
+		this.colorAttribute.end.z = new GPURandomTwoAttribute(data.finishColorBlue, data.finishColorBlue + data.finishColorVarianceGreen);
+		this.colorAttribute.end.w = new GPURandomTwoAttribute(data.finishColorAlpha, data.finishColorAlpha + data.finishColorVarianceAlpha);
 		// 设置粒子数量
 		this.counts = data.maxParticles;
 		// 设置粒子生命

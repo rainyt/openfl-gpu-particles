@@ -191,10 +191,8 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		this.outlife = (lifeAndDuration.x - aliveTime) / lifeAndDuration.x;
 		var ooutlife:Float = 1 - outlife;
 
-		var startlifeOffect:Float = rotaAndColorDToffest.z;
-		var endlifeOffect:Float = rotaAndColorDToffest.w;
-		var tweenScale:Float = endlifeOffect - startlifeOffect;
-		var coutlife:Float = (ooutlife - startlifeOffect) / tweenScale;
+		var tweenScale:Float = rotaAndColorDToffest.w - rotaAndColorDToffest.z;
+		var coutlife:Float = (ooutlife - rotaAndColorDToffest.z) / tweenScale;
 		colorv = startColor + (endColor - startColor) * coutlife;
 
 		// 准备原坐标
@@ -208,8 +206,8 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		}
 
 		// 缩放
-		var sx:Float = scaleXXYY.x * outlife + scaleXXYY.y * (1 - outlife);
-		var sy:Float = scaleXXYY.z * outlife + scaleXXYY.w * (1 - outlife);
+		var sx:Float = scaleXXYY.x * outlife + scaleXXYY.y * ooutlife;
+		var sy:Float = scaleXXYY.z * outlife + scaleXXYY.w * ooutlife;
 		var s:Mat4 = scale(sx, sy);
 
 		// 角度：开始角度 + (最终角度 - 开始角度) * 剩余生命

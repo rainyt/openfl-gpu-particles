@@ -50,7 +50,7 @@ class GPUParticleChild {
 	 * @return Bool
 	 */
 	public function isDie():Bool {
-		return maxlife != -1 && this.sprite.time > maxlife + life;
+		return maxlife != -1 && this.sprite.time >= maxlife + life;
 	}
 
 	/**
@@ -195,6 +195,8 @@ class GPUParticleChild {
 		} else {
 			var dlife = Std.int(sprite.duration / this.life) * this.life;
 			this.maxlife = dlife;
+			if (maxlife < life)
+				maxlife = life;
 		}
 
 		var startColor1 = sprite.colorAttribute.start.x.getValue();
