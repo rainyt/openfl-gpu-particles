@@ -3,7 +3,7 @@ package openfl.particle.data;
 /**
  * 两个数值之间的随时值
  */
- class GPURandomTwoAttribute implements GPUAttribute {
+class GPURandomTwoAttribute implements GPUAttribute {
 	public static function create(startRandom:Float, endRandom:Float):GPUAttribute {
 		return new GPURandomTwoAttribute(startRandom, endRandom);
 	}
@@ -25,5 +25,9 @@ package openfl.particle.data;
 
 	public function getValue():Float {
 		return startRandom + Math.random() * (endRandom - startRandom);
+	}
+
+	public function copy():GPUAttribute {
+		return new GPURandomTwoAttribute(startRandom, endRandom);
 	}
 }

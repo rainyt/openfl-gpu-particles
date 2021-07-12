@@ -3,7 +3,7 @@ package openfl.particle.data;
 /**
  * 单个数值
  */
- class GPUOneAttribute implements GPUAttribute {
+class GPUOneAttribute implements GPUAttribute {
 	public static function create(value:Float):GPUAttribute {
 		return new GPUOneAttribute(value);
 	}
@@ -22,5 +22,9 @@ package openfl.particle.data;
 
 	public function getValue():Float {
 		return value;
+	}
+
+	public function copy():GPUAttribute {
+		return new GPUOneAttribute(value);
 	}
 }

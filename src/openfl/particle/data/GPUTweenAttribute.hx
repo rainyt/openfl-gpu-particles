@@ -24,7 +24,6 @@ class GPUTweenAttribute {
 			nowWeight += value.weight;
 			value.aliveTimeScale = nowWeight / allWeigth;
 		}
-        trace("update=",attributes);
 		return allWeigth;
 	}
 }

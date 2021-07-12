@@ -32,4 +32,8 @@ class GPUFourAttribute {
 		this.z = new GPUOneAttribute(b);
 		this.w = new GPUOneAttribute(a);
 	}
+
+	public function copy():GPUFourAttribute {
+		return new GPUFourAttribute(x.copy(), y.copy(), z.copy(), w.copy());
+	}
 }

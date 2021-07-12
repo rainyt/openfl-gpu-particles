@@ -230,6 +230,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	private function _init() {
 		if (texture == null)
 			return;
+		this.dispose();
 		this.colorAttribute.tween.updateWeight();
 		this.scaleXAttribute.tween.updateWeight();
 		this.scaleYAttribute.tween.updateWeight();
@@ -322,9 +323,10 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	}
 
 	public function dispose():Void {
-		for (index => value in this.childs) {
-			value.dispose();
-		}
+		if (childs != null)
+			for (index => value in this.childs) {
+				value.dispose();
+			}
 		this.childs = null;
 	}
 }
