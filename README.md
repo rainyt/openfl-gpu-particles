@@ -6,6 +6,11 @@
 # 依赖库（Dependent library）
 - openfl-glsl：https://github.com/rainyt/openfl-glsl
     - 使用该库支持着色器的编写支持。Use this library to support the writing support of shaders.
+  
+# 安装
+```shell
+haxelib install openfl-gpu-particles
+```
 
 # 渲染器（Renderer）
 - GPUParticleSprite
@@ -68,7 +73,7 @@ gpuSystem.texture = texture;
 // 设置粒子数量
 gpuSystem.counts = 15;
 // 设置是否循环
-gpuSystem.duration = 0;
+gpuSystem.duration = -1;
 // 发射角度
 gpuSystem.emitRotation = new GPURandomTwoAttribute(60, 120);
 // 设置粒子方向范围
