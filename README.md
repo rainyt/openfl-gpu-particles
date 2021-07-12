@@ -40,3 +40,64 @@ jsonParticle.addEventListener(ParticleEvent.STOP,function(data){
   trace("stop!");
 });
 ```
+
+### 基础使用
+创建一个新的粒子对象，可直接参考samples目录
+```haxe
+// 创建
+var gpuSystem = new GPUParticleSprite();
+// 添加到舞台
+this.addChild(gpuSystem);
+// 设置粒子动态更新
+gpuSystem.dynamicEmitPoint = false;
+// 设置粒子的发生方式
+gpuSystem.emitMode = Point;
+// 设置粒子的纹理
+gpuSystem.texture = texture;
+// 设置粒子数量
+gpuSystem.counts = 15;
+// 设置是否循环
+gpuSystem.duration = 0;
+// 发射角度
+gpuSystem.emitRotation = new GPURandomTwoAttribute(60, 120);
+// 设置粒子方向范围
+gpuSystem.velocity.x.asOneAttribute().value = 100;
+gpuSystem.velocity.y.asOneAttribute().value = 0;
+// 设置粒子重力
+gpuSystem.gravity.x.asOneAttribute().value = 0;
+gpuSystem.gravity.y.asOneAttribute().value = -150;
+// 设置粒子加速力
+gpuSystem.acceleration.x.asOneAttribute().value = 50;
+// 设置粒子切向加速力
+gpuSystem.tangential.x = new GPURandomTwoAttribute(-1000,1000);
+// 设置粒子的生命力
+gpuSystem.life = 0.15;
+// 设置粒子的初始点范围
+gpuSystem.widthRange = 25;
+gpuSystem.heightRange = 25;
+// 设置粒子的缩放系数
+var startrandom = new GPURandomTwoAttribute(1, 1);
+var random = new GPURandomTwoAttribute(0.1, 0.2);
+gpuSystem.scaleXAttribute.start = startrandom;
+gpuSystem.scaleYAttribute.start = startrandom;
+gpuSystem.scaleXAttribute.end = random;
+gpuSystem.scaleYAttribute.end = random;
+gpuSystem.x = Std.int(getStageWidth() * Math.random());
+gpuSystem.y = Std.int(getStageHeight() * Math.random());
+// gpuSystem.x =
+// 角度
+gpuSystem.rotaionAttribute.start = new GPURandomTwoAttribute(0, 360);
+gpuSystem.rotaionAttribute.end = new GPURandomTwoAttribute(0, 360);
+// 颜色
+var random = new GPURandomTwoAttribute(0, 1);
+gpuSystem.colorAttribute.start = new GPUFourAttribute(1, 0.5, 0.2, 0);
+// 颜色过渡值，由权重计算
+gpuSystem.colorAttribute.tween.pushAttribute(10, new GPUFourAttribute(1, 0.2, 0, 0.5));
+gpuSystem.colorAttribute.tween.pushAttribute(5, new GPUFourAttribute(1, 1., 0., 1));
+// gpuSystem.colorAttribute.tween.pushAttribute(5, new GPUFourAttribute(1, 1, 0, 1));
+gpuSystem.colorAttribute.tween.pushAttribute(25, new GPUFourAttribute(1, 0, 0, 0.5));
+gpuSystem.colorAttribute.tween.pushAttribute(25, new GPUFourAttribute(1, 0, 0, 0));
+// gpuSystem.colorAttribute.end = new GPUFourAttribute(random, random, random, 1);
+// 开始发射
+gpuSystem.start();
+```
