@@ -12,7 +12,18 @@
 
   使用Sprite绘制三角形、由GPU着色器进行渲染移动、缩放、旋转以及颜色修改等处理，可极大减少CPU的消耗，从而提高性能。Using sprite to draw triangles and GPU shaders to render, move, scale, rotate and modify colors can greatly reduce CPU consumption and improve performance.
 
+# 支持
+- 1、加载通用粒子文件（JSON格式）；(Load the general particle file (JSON format))
+- 2、颜色支持多个颜色过渡；(Color supports multiple color transitions)
+- 3、支持通用粒子的重力模式，径向模式暂未支持；(The gravity mode of general particles is supported, but the radial mode is not)
+- 4、支持所有参数随机；(All parameters are random)
+- 5、由GPU实现的粒子渲染逻辑；(Particle rendering logic implemented by GPU)
+
 # 路线图
+
+### GPU粒子编辑器
+仍然在开放中
+
 ### GPUParticleSprite.fromJson
 现在可以通过fromJson来加载一些通用JSON格式的粒子特效，例如`Particle Designer`等通用工具生成的粒子文件，但部分参数仍然在开发当中。
 ```haxe
