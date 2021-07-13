@@ -14,11 +14,10 @@ class BlackShader extends GPUParticleShader {
 		if (this.color.a != 0) {
 			this.gl_FragColor = colorv;
 		}
-		var mulcolor:Vec4 = texture2D(bitmap2, gl_openfl_TextureCoordv);
-		var mulmax:Float = (color.r + color.g + color.b) / 3 + (mulcolor.r + mulcolor.g + mulcolor.b) / 3 - 2 * (1 - outlife);
-		mulmax = max(0,mulmax);
+		var mulcolor:Vec4 = texture2D(bitmap2, fract(gl_openfl_TextureCoordv * 2));
+		var mulmax:Float = (color.r + color.g + color.b) / 3 + (mulcolor.r + mulcolor.g + mulcolor.b) / 3 - 3 * (1 - outlife);
+		mulmax = max(0, mulmax);
 		this.gl_FragColor = gl_FragColor * mulmax * gl_FragColor.a * lifeAlpha;
 		// this.gl_FragColor = mulcolor;
-		
 	}
 }
