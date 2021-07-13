@@ -131,20 +131,28 @@ class GPUParticleChild {
 		var angle = 0.;
 		// 点与中心的角度
 		var posAngle = 0.;
-		var sx = Math.random() * sprite.widthRange * 2 - sprite.widthRange;
-		var sy = Math.random() * sprite.heightRange * 2 - sprite.heightRange;
+		var sx = Math.random() * sprite.widthRange * sprite.scaleX * 2 - sprite.widthRange * sprite.scaleX;
+		var sy = Math.random() * sprite.heightRange * sprite.scaleY * 2 - sprite.heightRange * sprite.scaleY;
 		posAngle = -Math.atan2((sy - 0), (sx - 0));
 		var posAngle2 = Math.atan2((sx - 0), (sy - 0));
 		// posAngle = -45 * 3.14 / 180;
 		switch (sprite.emitMode) {
 			case Point:
 				angle = sprite.emitRotation.getValue() * Math.PI / 180;
-				vx = sprite.velocity.x.getValue();
-				vy = sprite.velocity.y.getValue();
-				ax = sprite.acceleration.x.getValue();
-				ay = sprite.acceleration.y.getValue();
+				vx = sprite.velocity.x.getValue() * sprite.scaleX;
+				vy = sprite.velocity.y.getValue() * sprite.scaleY;
+				ax = sprite.acceleration.x.getValue() * sprite.scaleX;
+				ay = sprite.acceleration.y.getValue() * sprite.scaleY;
+				// tx = sprite.tangential.x.getValue() * sprite.scaleX;
+				// ty = sprite.tangential.y.getValue() * sprite.scaleY;
+
+				// vx = sprite.velocity.x.getValue();
+				// vy = sprite.velocity.y.getValue();
+				// ax = sprite.acceleration.x.getValue();
+				// ay = sprite.acceleration.y.getValue();
 				tx = sprite.tangential.x.getValue();
 				ty = sprite.tangential.y.getValue();
+
 			default:
 				angle = sprite.emitRotation.getValue() * Math.PI / 180;
 				vx = sprite.velocity.x.getValue();
@@ -165,19 +173,26 @@ class GPUParticleChild {
 		ax = ax1;
 		ay = ay1;
 
+		ax = ax1;
+		ay = ay1;
+
 		// 切向力
 		var tx1:Float = Math.cos(posAngle2) * tx + Math.sin(posAngle2) * ty;
 		var ty1:Float = Math.cos(posAngle2) * ty - Math.sin(posAngle2) * tx;
 		tx = tx1;
 		ty = ty1;
 
-		var gx = sprite.gravity.x.getValue();
-		var gy = sprite.gravity.y.getValue();
+		var gx = sprite.gravity.x.getValue() * sprite.scaleX;
+		var gy = sprite.gravity.y.getValue() * sprite.scaleY;
 
 		var scaleXstart:Float = sprite.scaleXAttribute.start.getValue();
 		var scaleYstart:Float = sprite.scaleYAttribute.start == sprite.scaleXAttribute.start ? scaleXstart : sprite.scaleYAttribute.start.getValue();
 		var scaleXend:Float = sprite.scaleXAttribute.end.getValue();
 		var scaleYend:Float = sprite.scaleYAttribute.end == sprite.scaleXAttribute.end ? scaleXend : sprite.scaleYAttribute.end.getValue();
+		// scaleXstart *= sprite.scaleX;
+		// scaleYstart *= sprite.scaleY;
+		// scaleXend *= sprite.scaleX;
+		// scaleYend *= sprite.scaleY;
 
 		var startRotaion:Float = sprite.rotaionAttribute.start.getValue();
 		var endRotaion:Float = sprite.rotaionAttribute.end.getValue();
