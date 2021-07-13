@@ -1,5 +1,6 @@
 package openfl.particle;
 
+import openfl.shader.GPUGeryShader;
 import openfl.particle.data.*;
 import openfl.geom.Point;
 import openfl.events.Event;
@@ -160,7 +161,8 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 
 	public function new() {
 		super();
-		_shader = new GPUParticleShader();
+		// _shader = new GPUParticleShader();
+		_shader = new GPUGeryShader();
 		this.blendMode = BlendMode.SCREEN;
 	}
 

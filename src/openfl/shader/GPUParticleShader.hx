@@ -2,15 +2,16 @@ package openfl.shader;
 
 #if zygameui
 import zygame.core.Start;
+#else
+import openfl.display.Stage;
 #end
 import glsl.OpenFLGraphicsShader;
-import openfl.display.Stage;
-import glsl.GLSL;
 import VectorMath;
 
 /**
  * GPU粒子系统着色器
  */
+@:autoBuild(glsl.macro.GLSLCompileMacro.build())
 class GPUParticleShader extends OpenFLGraphicsShader {
 	/**
 	 * 开始颜色值
