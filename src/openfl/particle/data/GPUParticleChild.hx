@@ -121,7 +121,7 @@ class GPUParticleChild {
 	}
 
 	public function reset():Void {
-		var r = random == 0 ? Math.random() : random;
+		var r = sprite.randomLife.getValue();
 		var vx = 0.;
 		var vy = 0.;
 		var ax = 0.;

@@ -41,13 +41,20 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	public var childs:Array<GPUParticleChild>;
 
 	/**
+	 * 随机生命指数
+	 */
+	public var randomLife:GPUAttribute = new GPURandomTwoAttribute(0, 1);
+
+	/**
 	 * 是否设置发射点为动态，默认为false，当为true时，将会随着x,y的坐标发生变化而改编发射点
 	 */
 	public var dynamicEmitPoint:Bool = false;
 
 	/**
-	 * GPU粒子着色器
+	 * GPU粒子着色器，设置粒子着色器
 	 */
+	public var particleShader(get, set):GPUParticleShader;
+
 	private var _shader:GPUParticleShader;
 
 	/**
@@ -63,7 +70,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	/**
 	 * 粒子数量
 	 */
-	public var counts:Int = 10;
+	public var counts:Int = 1;
 
 	/**
 	 * 当前时间，可设置当前时间来更新粒子
@@ -167,7 +174,9 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	/**
 	 * 重置粒子
 	 */
-	public function reset() {}
+	public function reset() {
+		// todo
+	}
 
 	/**
 	 * 开始发射粒子
@@ -328,5 +337,14 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 				value.dispose();
 			}
 		this.childs = null;
+	}
+
+	function get_particleShader():GPUParticleShader {
+		return _shader;
+	}
+
+	function set_particleShader(value:GPUParticleShader):GPUParticleShader {
+		_shader = value;
+		return _shader;
 	}
 }
