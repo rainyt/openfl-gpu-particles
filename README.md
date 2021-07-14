@@ -117,3 +117,23 @@ gpuSystem.colorAttribute.tween.pushAttribute(25, new GPUFourAttribute(1, 0, 0, 0
 // 开始发射
 gpuSystem.start();
 ```
+
+## 高级功能
+该GPU粒子允许自定义着色器，只需要继承`GPUParticleShader`便可以进行简单的着色器修改。
+```haxe
+class CustomShader extends GPUParticleShader {
+
+  @:uniform public var bitmap2:glsl.Sampler2D;
+
+  /**
+   * 重写fragment来重新实现着色器，但不建议重写顶点着色器，因为它对应的是完整的顶点位移逻辑。
+   * */
+	override function fragment() {
+    // 在这里可以访问
+    // outlife 已消耗的生命：0-1
+    // lifeAlpha 是否可见：0 or 1
+    // colorv 当前设置的颜色修改
+  }
+
+}
+```
