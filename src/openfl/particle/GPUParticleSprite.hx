@@ -1,5 +1,6 @@
 package openfl.particle;
 
+import openfl.shader.utils.ShaderBufferUtils;
 import openfl.particle.data.*;
 import openfl.geom.Point;
 import openfl.events.Event;
@@ -203,16 +204,23 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	public function onFrame(#if !zygameui e:Event #end) {
 		this.time += 1 / 60;
 		particleLiveCounts = 0;
+		var updateAttr = [];
 		for (index => value in childs) {
 			if (!value.isDie()) {
 				particleLiveCounts++;
 			}
 			if (value.onReset()) {
 				value.reset();
+				updateAttr = null;
 			} else {
 				if (colorAttribute.hasTween()) {
 					// 存在过渡
 					value.updateTweenColor();
+					if (updateAttr != null) {
+						updateAttr.push(_shader.a_startColor.index);
+						updateAttr.push(_shader.a_endColor.index);
+						updateAttr.push(_shader.a_rotaAndColorDToffest.index);
+					}
 				}
 			}
 		}
@@ -222,8 +230,10 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		_shader.u_stageSize.value = [stage.stageWidth, stage.stageHeight];
 		#end
 		_shader.u_loop.value = [duration == -1 ? 1 : 0];
+		if (updateAttr != null)
+			updateAttr.push(_shader.u_time.index);
 		@:privateAccess for (index => value in this.graphics.__usedShaderBuffers) {
-			value.update(value.shader);
+			ShaderBufferUtils.update(value, value.shader, updateAttr);
 		}
 		this.invalidate();
 		if (this.duration != -1 && particleLiveCounts == 0) {
