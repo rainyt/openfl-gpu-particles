@@ -121,7 +121,6 @@ class GPUParticleChild {
 	}
 
 	public function reset():Void {
-		var r = sprite.randomLife.getValue();
 		var vx = 0.;
 		var vy = 0.;
 		var ax = 0.;
@@ -198,10 +197,12 @@ class GPUParticleChild {
 		var endRotaion:Float = sprite.rotaionAttribute.end.getValue();
 
 		// 生命+生命方差实现
-		var rlife = sprite.life + Math.random() * sprite.lifeVariance;
-
-		this.life = rlife;
-		this.random = r;
+		if (this.life == 0) {
+			var rlife = sprite.life + Math.random() * sprite.lifeVariance;
+			this.life = rlife;
+			var r = sprite.randomLife.getValue();
+			this.random = r;
+		}
 
 		// 最大生命周期
 		if (sprite.duration == -1) {
@@ -245,7 +246,7 @@ class GPUParticleChild {
 			sprite._shader.a_rotaAndColorDToffest.value[index4] = (startRotaion);
 			sprite._shader.a_rotaAndColorDToffest.value[index4 + 1] = (endRotaion);
 			// 随机值
-			sprite._shader.a_random.value[index1] = (r);
+			sprite._shader.a_random.value[index1] = (random);
 			// 移动向量
 			sprite._shader.a_velocity.value[index2] = (vx);
 			sprite._shader.a_velocity.value[index2 + 1] = (vy);
@@ -258,7 +259,7 @@ class GPUParticleChild {
 			sprite._shader.a_acceleration.value[index2] = (ax);
 			sprite._shader.a_acceleration.value[index2 + 1] = (ay);
 			// 粒子生存时间
-			sprite._shader.a_lifeAndDuration.value[index2] = (rlife);
+			sprite._shader.a_lifeAndDuration.value[index2] = (life);
 			sprite._shader.a_lifeAndDuration.value[index2 + 1] = (maxlife);
 			// 初始化位置
 			sprite._shader.a_pos.value[index2] = (sx);
