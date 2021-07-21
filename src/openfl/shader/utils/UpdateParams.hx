@@ -10,4 +10,5 @@ class UpdateParams {
 	public function push(child:GPUParticleChild):Void {
 		childs.push(child);
 	}
+
 }

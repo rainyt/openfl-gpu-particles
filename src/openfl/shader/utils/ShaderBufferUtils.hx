@@ -12,7 +12,7 @@ class ShaderBufferUtils {
 	 * @param shader 
 	 * @param updateAllParam 
 	 */
-	public static function update(buffer:ShaderBuffer, shader:GraphicsShader, updateParams:UpdateParams):Void {
+	public static function update(buffer:ShaderBuffer, shader:GPUParticleShader, updateParams:UpdateParams):Void {
 		#if lime
 		buffer.inputCount = 0;
 		// overrideCount = 0;
@@ -134,7 +134,6 @@ class ShaderBufferUtils {
 			} else if (i < boolCount + floatCount) {
 				floatParam = buffer.paramRefs_Float[floatIndex];
 				floatIndex++;
-
 				if (updateParams == null || length <= 4) {
 					for (j in 0...length) {
 						buffer.paramData[paramPosition] = floatParam.value[j];

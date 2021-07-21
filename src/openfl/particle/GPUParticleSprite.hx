@@ -167,11 +167,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	 */
 	public var particleLiveCounts:Int;
 
-	/**
-	 * 是否自动重置
-	 */
-	public var autoReset:Bool = false;
-
 	public function new() {
 		super();
 		_shader = new GPUParticleShader();
@@ -218,18 +213,12 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			if (value.onReset()) {
 				value.reset();
 				updateAttr.push(value);
-				// if (autoReset)
-				// updateAttr = null;
 			} else {
 				if (colorAttribute.hasTween()) {
 					// 存在过渡
-					if(value.updateTweenColor())
+					if (value.updateTweenColor()) {
 						updateAttr.push(value);
-					// if (updateAttr != null) {
-					// 	updateAttr.push(_shader.a_startColor.index);
-					// 	updateAttr.push(_shader.a_endColor.index);
-					// 	updateAttr.push(_shader.a_rotaAndColorDToffest.index);
-					// }
+					}
 				}
 			}
 		}
@@ -242,7 +231,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		if (updateAttr != null)
 			updateAttr.push(_shader.u_time.index);
 		@:privateAccess for (index => value in this.graphics.__usedShaderBuffers) {
-			ShaderBufferUtils.update(value, value.shader, updateAttr);
+			ShaderBufferUtils.update(value, cast value.shader, updateAttr);
 		}
 		this.invalidate();
 		if (this.duration != -1 && particleLiveCounts == 0) {
