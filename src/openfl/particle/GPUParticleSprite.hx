@@ -166,6 +166,11 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	 */
 	public var particleLiveCounts:Int;
 
+	/**
+	 * 是否自动重置
+	 */
+	public var autoReset:Bool = false;
+
 	public function new() {
 		super();
 		_shader = new GPUParticleShader();
@@ -177,6 +182,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	 */
 	public function reset() {
 		// todo
+
 	}
 
 	/**
@@ -204,14 +210,15 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	public function onFrame(#if !zygameui e:Event #end) {
 		this.time += 1 / 60;
 		particleLiveCounts = 0;
-		var updateAttr = [];
+		var updateAttr:Array<Dynamic> = [];
 		for (index => value in childs) {
 			if (!value.isDie()) {
 				particleLiveCounts++;
 			}
 			if (value.onReset()) {
 				value.reset();
-				updateAttr = null;
+				if (autoReset)
+					updateAttr = null;
 			} else {
 				if (colorAttribute.hasTween()) {
 					// 存在过渡
