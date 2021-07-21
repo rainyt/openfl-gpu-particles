@@ -77,11 +77,11 @@ class GPUParticleChild {
 	/**
 	 * 更新过渡颜色
 	 */
-	public function updateTweenColor():Void {
+	public function updateTweenColor():Bool {
 		var tscale = aliveTime / life;
 		var data = sprite.colorAttribute.getStartAndEndTweenColor(tscale);
 		if (data.id == tweenColorID) {
-			return;
+			return false;
 		}
 
 		var index2 = id * 12;
@@ -118,6 +118,7 @@ class GPUParticleChild {
 			index4 += 4;
 			index2 += 2;
 		}
+		return true;
 	}
 
 	public function reset():Void {

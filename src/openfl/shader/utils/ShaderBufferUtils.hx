@@ -12,7 +12,7 @@ class ShaderBufferUtils {
 	 * @param shader 
 	 * @param updateAllParam 
 	 */
-	public static function update(buffer:ShaderBuffer, shader:GraphicsShader, updateAllParams:Array<Dynamic>):Void {
+	public static function update(buffer:ShaderBuffer, shader:GraphicsShader, updateParams:UpdateParams):Void {
 		#if lime
 		buffer.inputCount = 0;
 		// overrideCount = 0;
@@ -99,10 +99,10 @@ class ShaderBufferUtils {
 
 		if (buffer.paramDataLength > 0) {
 			if (buffer.paramData == null) {
-				updateAllParams = null;
+				updateParams = null;
 				buffer.paramData = new Float32Array(buffer.paramDataLength);
 			} else if (buffer.paramDataLength > buffer.paramData.length) {
-				updateAllParams = null;
+				updateParams = null;
 				var data = new Float32Array(buffer.paramDataLength);
 				data.set(buffer.paramData);
 				buffer.paramData = data;
@@ -123,7 +123,7 @@ class ShaderBufferUtils {
 				boolParam = buffer.paramRefs_Bool[boolIndex];
 				boolIndex++;
 
-				if (updateAllParams == null || updateAllParams.indexOf(boolParam.index) != -1) {
+				if (updateParams == null || length <= 4) {
 					for (j in 0...length) {
 						buffer.paramData[paramPosition] = boolParam.value[j] ? 1 : 0;
 						paramPosition++;
@@ -135,19 +135,45 @@ class ShaderBufferUtils {
 				floatParam = buffer.paramRefs_Float[floatIndex];
 				floatIndex++;
 
-				if (updateAllParams == null || updateAllParams.indexOf(floatParam.index) != -1) {
+				if (updateParams == null || length <= 4) {
 					for (j in 0...length) {
 						buffer.paramData[paramPosition] = floatParam.value[j];
 						paramPosition++;
 					}
 				} else {
+					// trace("update:",updateParams.childs.length);
+					for (index => value in updateParams.childs) {
+						var indexAt = value.id;
+						var indexLen = 0;
+						if (floatParam.type == FLOAT) {
+							indexAt *= 6;
+							indexLen = 1;
+						} else if (floatParam.type == FLOAT2) {
+							indexAt *= 12;
+							indexLen = 2;
+						} else if (floatParam.type == FLOAT3) {
+							indexAt *= 18;
+							indexLen = 3;
+						} else if (floatParam.type == FLOAT4) {
+							indexAt *= 24;
+							indexLen = 4;
+						}
+						var indexJAt = 0;
+						for (j in 0...6) {
+							for (j2 in 0...indexLen) {
+								buffer.paramData[paramPosition + indexAt + j2] = floatParam.value[indexAt + j2];
+							}
+							indexJAt += indexLen;
+							indexAt += indexLen;
+						}
+					}
 					paramPosition += length;
 				}
 			} else {
 				intParam = buffer.paramRefs_Int[intIndex];
 				intIndex++;
 
-				if (updateAllParams == null || updateAllParams.indexOf(intParam.index) != -1) {
+				if (updateParams == null || length <= 4) {
 					for (j in 0...length) {
 						buffer.paramData[paramPosition] = intParam.value[j];
 						paramPosition++;

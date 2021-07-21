@@ -1,5 +1,6 @@
 package openfl.particle;
 
+import openfl.shader.utils.UpdateParams;
 import openfl.shader.utils.ShaderBufferUtils;
 import openfl.particle.data.*;
 import openfl.geom.Point;
@@ -182,7 +183,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	 */
 	public function reset() {
 		// todo
-
 	}
 
 	/**
@@ -210,24 +210,26 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	public function onFrame(#if !zygameui e:Event #end) {
 		this.time += 1 / 60;
 		particleLiveCounts = 0;
-		var updateAttr:Array<Dynamic> = [];
+		var updateAttr:UpdateParams = new UpdateParams();
 		for (index => value in childs) {
 			if (!value.isDie()) {
 				particleLiveCounts++;
 			}
 			if (value.onReset()) {
 				value.reset();
-				if (autoReset)
-					updateAttr = null;
+				updateAttr.push(value);
+				// if (autoReset)
+				// updateAttr = null;
 			} else {
 				if (colorAttribute.hasTween()) {
 					// 存在过渡
-					value.updateTweenColor();
-					if (updateAttr != null) {
-						updateAttr.push(_shader.a_startColor.index);
-						updateAttr.push(_shader.a_endColor.index);
-						updateAttr.push(_shader.a_rotaAndColorDToffest.index);
-					}
+					if(value.updateTweenColor())
+						updateAttr.push(value);
+					// if (updateAttr != null) {
+					// 	updateAttr.push(_shader.a_startColor.index);
+					// 	updateAttr.push(_shader.a_endColor.index);
+					// 	updateAttr.push(_shader.a_rotaAndColorDToffest.index);
+					// }
 				}
 			}
 		}
@@ -248,6 +250,14 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			this.stop();
 			this.dispatchEvent(new ParticleEvent(ParticleEvent.STOP));
 		}
+	}
+
+	/**
+	 * 获取当前粒子使用的着色器
+	 * @return GPUParticleShader
+	 */
+	public function getShader():GPUParticleShader {
+		return _shader;
 	}
 
 	/**

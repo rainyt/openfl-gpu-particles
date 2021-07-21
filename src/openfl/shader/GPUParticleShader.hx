@@ -1,5 +1,6 @@
 package openfl.shader;
 
+import openfl.display.ShaderParameter;
 #if zygameui
 import zygame.core.Start;
 #else
@@ -247,4 +248,5 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 	override function onFrame() {
 		super.onFrame();
 	}
+
 }
