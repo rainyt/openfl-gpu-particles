@@ -12,7 +12,7 @@ class ShaderBufferUtils {
 	 * @param shader 
 	 * @param updateAllParam 
 	 */
-	public static function update(buffer:ShaderBuffer, shader:GraphicsShader, updateAllParams:Array<Int>):Void {
+	public static function update(buffer:ShaderBuffer, shader:GraphicsShader, updateAllParams:Array<Dynamic>):Void {
 		#if lime
 		buffer.inputCount = 0;
 		// overrideCount = 0;
