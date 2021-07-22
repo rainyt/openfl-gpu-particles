@@ -211,8 +211,10 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 				particleLiveCounts++;
 			}
 			if (value.onReset()) {
-				value.reset();
-				updateAttr.push(value);
+				if (dynamicEmitPoint || colorAttribute.hasTween()) {
+					value.reset();
+					updateAttr.push(value);
+				}
 			} else {
 				if (colorAttribute.hasTween()) {
 					// 存在过渡
