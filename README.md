@@ -1,7 +1,6 @@
 # openfl-gpu-particles
 - 可用于OpenFL渲染的GPU粒子 GPU particles for openfl rendering
 - OpenFL：https://github.com/openfl/openfl
-- 该库未完成，请等待，当完善时将会发布haxelib。The library has not been completed, please wait. When it is completed, haxelib will be released.
 
 # 依赖库（Dependent library）
 - openfl-glsl：https://github.com/rainyt/openfl-glsl

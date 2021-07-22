@@ -4,8 +4,8 @@
   "license": "MIT",
   "tags": ["sprite","particles","openfl"],
   "description": "GPU Particles render",
-  "version": "0.0.4",
-  "releasenote": "GPU Particles render.",
+  "version": "0.0.5",
+  "releasenote": "Improve particle performance, please refer to CHANGELOG.md for more",
   "contributors": ["rainy"],
   "classPath": "src",
   "dependencies": {
