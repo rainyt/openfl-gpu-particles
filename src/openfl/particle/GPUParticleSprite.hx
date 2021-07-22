@@ -55,7 +55,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	/**
 	 * 强制重置，开启后，当粒子在生命最后一刻结束后，会进行重置，默认为false
 	 */
-	public var froceReset:Bool = false;
+	public var forceReset:Bool = false;
 
 	/**
 	 * GPU粒子着色器，设置粒子着色器
@@ -216,7 +216,7 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 				particleLiveCounts++;
 			}
 			if (value.onReset()) {
-				if (froceReset || dynamicEmitPoint || colorAttribute.hasTween()) {
+				if (forceReset || dynamicEmitPoint || colorAttribute.hasTween()) {
 					value.reset();
 					updateAttr.push(value);
 				}
