@@ -13,6 +13,8 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 
 	public function new(data:GPUJSONParticleSpriteJSONData, texture:BitmapData = null) {
 		super();
+
+
 		this.data = data;
 		this.texture = texture;
 		// 系统持续时长
@@ -49,8 +51,8 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.acceleration.y.asOneAttribute().value = 0;
 		this.tangential.x = new GPURandomTwoAttribute(data.tangentialAcceleration, data.tangentialAcceleration + data.tangentialAccelVariance);
 		this.tangential.y.asOneAttribute().value = 0;
-		this.gravity.x.asOneAttribute().value = data.gravityx;
-		this.gravity.y.asOneAttribute().value = data.gravityy;
+		this.gravity.x.asOneAttribute().value = data.gravityx * 0.5;
+		this.gravity.y.asOneAttribute().value = -data.gravityy * 0.5;
 		// 设置粒子的开始角度
 		this.rotaionAttribute.start = new GPURandomTwoAttribute(data.rotationStart, data.rotationStart + data.rotationStartVariance);
 		this.rotaionAttribute.end = new GPURandomTwoAttribute(data.rotationEnd, data.rotationEnd + data.rotationEndVariance);
@@ -59,18 +61,33 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 	}
 
 	override function start() {
-		// 设置粒子的初始化大小
-		var scale1 = (data.startParticleSize) / texture.width;
-		var scale2 = (data.startParticleSize + data.startParticleSizeVariance) / texture.width;
-		var random:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
-		this.scaleXAttribute.start = random;
-		this.scaleYAttribute.start = random;
+		var scale1 = Math.min((data.startParticleSize) / texture.width, (data.startParticleSize) / texture.height);
+		var scale2 = Math.min((data.startParticleSize + data.startParticleSizeVariance) / texture.width,
+			(data.startParticleSize + data.startParticleSizeVariance) / texture.height);
+		var startrandom:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
+
 		// 设置粒子的结束大小
 		scale1 = (data.finishParticleSize) / texture.width;
 		scale2 = (data.finishParticleSize + data.finishParticleSizeVariance) / texture.width;
-		var random:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
-		this.scaleXAttribute.end = random;
-		this.scaleYAttribute.end = random;
+		var endrandom:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
+
+		if (texture.width == texture.height) {
+			this.scaleXAttribute.start = startrandom;
+			this.scaleYAttribute.start = startrandom;
+			this.scaleXAttribute.end = endrandom;
+			this.scaleYAttribute.end = endrandom;
+		} else if (texture.width > texture.height) {
+			this.scaleXAttribute.start = startrandom;
+			this.scaleYAttribute.start = new GPUOneAttribute(1);
+			this.scaleXAttribute.end = endrandom;
+			this.scaleYAttribute.end = new GPUOneAttribute(1);
+		} else {
+			this.scaleXAttribute.start = new GPUOneAttribute(1);
+			this.scaleYAttribute.start = startrandom;
+			this.scaleXAttribute.end = new GPUOneAttribute(1);
+			this.scaleYAttribute.end = endrandom;
+		}
+
 		super.start();
 	}
 }
