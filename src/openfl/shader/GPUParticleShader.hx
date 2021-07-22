@@ -80,9 +80,9 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 	@:uniform public var time:Float;
 
 	/**
-	 * 舞台尺寸
+	 * 舞台尺寸以及全局透明度
 	 */
-	@:uniform public var stageSize:Vec2;
+	@:uniform public var stageSizeAlpha:Vec3;
 
 	/**
 	 * 是否循环
@@ -221,7 +221,7 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		var smove:Vec2 = vec2((sx - 1.) * 0.25 * 0.25 * gl_openfl_TextureSize.x, (sy - 1.) * 0.25 * 0.25 * gl_openfl_TextureSize.y);
 
 		// UV位移
-		var uv:Vec2 = 2. / stageSize.xy;
+		var uv:Vec2 = 2. / stageSizeAlpha.xy;
 
 		// 坐标实现
 		var mvec2:Vec2 = acceleration + gravityxAndTangential.xy + gravityxAndTangential.zw;
@@ -242,11 +242,10 @@ class GPUParticleShader extends OpenFLGraphicsShader {
 		super.fragment();
 		color.rgb *= colorv.rgb;
 		color.rgba *= colorv.a;
-		this.gl_FragColor = color * lifeAlpha * gl_openfl_Alphav;
+		this.gl_FragColor = color * lifeAlpha * gl_openfl_Alphav * stageSizeAlpha.z;
 	}
 
 	override function onFrame() {
 		super.onFrame();
 	}
-
 }

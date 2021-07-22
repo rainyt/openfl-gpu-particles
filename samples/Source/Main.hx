@@ -22,6 +22,7 @@ class Main extends Sprite {
 
 	public function onInit(e:Event):Void {
 		stage.color = 0x0;
+		stage.color = 0x888888;
 		Assets.loadBitmapData("assets/laba_lihua.png").onComplete(function(texture) {
 			// 创建一个粒子对象
 			var gpuSystem:GPUParticleSprite = null;
@@ -87,6 +88,13 @@ class Main extends Sprite {
 				this.addChild(jsonParticle);
 				jsonParticle.x = stage.stageWidth / 2;
 				jsonParticle.y = stage.stageHeight / 2;
+
+				jsonParticle.colorAttribute.end.w.asOneAttribute().value = 0;
+
+				// var end = jsonParticle.colorAttribute.end.copy();
+				// end.w.asOneAttribute().value = 0;
+				// jsonParticle.colorAttribute.tween.pushAttribute(80, jsonParticle.colorAttribute.end);
+				// jsonParticle.colorAttribute.tween.pushAttribute(800, end);
 				jsonParticle.start();
 
 				trace("isLoop", jsonParticle.loop, jsonParticle.duration);

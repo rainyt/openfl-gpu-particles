@@ -72,6 +72,7 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		this.rotaionAttribute.end = new GPURandomTwoAttribute(data.rotationEnd, data.rotationEnd + data.rotationEndVariance);
 		// 设置粒子发射方向
 		this.emitRotation = new GPURandomTwoAttribute(data.angle - data.angleVariance, data.angle + data.angleVariance);
+		this.forceReset = true;
 	}
 
 	override function start() {

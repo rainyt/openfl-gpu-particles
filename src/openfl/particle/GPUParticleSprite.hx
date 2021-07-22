@@ -230,9 +230,9 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 			}
 		}
 		#if zygameui
-		_shader.u_stageSize.value = [Start.current.getStageWidth(), Start.current.getStageHeight()];
+		_shader.u_stageSizeAlpha.value = [Start.current.getStageWidth(), Start.current.getStageHeight(), @:privateAccess __worldAlpha];
 		#else
-		_shader.u_stageSize.value = [stage.stageWidth, stage.stageHeight];
+		_shader.u_stageSizeAlpha.value = [stage.stageWidth, stage.stageHeight, @:privateAccess __worldAlpha];
 		#end
 		_shader.u_loop.value = [duration == -1 ? 1 : 0];
 		if (updateAttr != null)
