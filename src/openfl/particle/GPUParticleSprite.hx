@@ -249,14 +249,6 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	}
 
 	/**
-	 * 获取当前粒子使用的着色器
-	 * @return GPUParticleShader
-	 */
-	public function getShader():GPUParticleShader {
-		return _shader;
-	}
-
-	/**
 	 * 初始化所有粒子
 	 */
 	private function _init() {

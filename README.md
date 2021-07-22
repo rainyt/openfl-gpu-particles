@@ -158,3 +158,7 @@ class CustomShader extends GPUParticleShader {
 
 }
 ```
+Use:
+```haxe
+gpuSystem.particleShader = new CustomShader();
+```
