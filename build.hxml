@@ -2,4 +2,5 @@
 --library openfl-glsl
 --library vector-math
 --library openfl
+--library lime
 --interp
