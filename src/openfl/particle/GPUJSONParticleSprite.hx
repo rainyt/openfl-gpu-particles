@@ -13,6 +13,11 @@ using openfl.particle.Tools;
 class GPUJSONParticleSprite extends GPUParticleSprite {
 	public var data:GPUJSONParticleSpriteJSONData;
 
+	/**
+	 * 是否强制缩放等比例，默认为false
+	 */
+	public var forceScaleProportional:Bool = false;
+
 	public function new(data:GPUJSONParticleSpriteJSONData, texture:BitmapData = null) {
 		super();
 		if (data.blendFuncSource == GL.DST_COLOR) {
@@ -86,7 +91,7 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 		scale2 = (data.finishParticleSize + data.finishParticleSizeVariance) / texture.width;
 		var endrandom:GPURandomTwoAttribute = new GPURandomTwoAttribute(scale1, scale2);
 
-		if (texture.width == texture.height) {
+		if (texture.width == texture.height || forceScaleProportional) {
 			this.scaleXAttribute.start = startrandom;
 			this.scaleYAttribute.start = startrandom;
 			this.scaleXAttribute.end = endrandom;
