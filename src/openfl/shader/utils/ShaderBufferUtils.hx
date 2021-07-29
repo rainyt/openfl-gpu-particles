@@ -143,6 +143,8 @@ class ShaderBufferUtils {
 					// 判断粒子对象，是否更新，需要更新的才从这里进行刷新
 					// Todo : 是否可以判断当前属性是否需要刷新，而不是全部刷新
 					for (index => value in updateParams.childs) {
+						if(value == null)
+							continue;
 						var indexAt = value.id;
 						var indexLen = 0;
 						if (floatParam.type == FLOAT) {

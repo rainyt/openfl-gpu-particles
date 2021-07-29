@@ -21,17 +21,13 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 	public function new(data:GPUJSONParticleSpriteJSONData, texture:BitmapData = null) {
 		super();
 		if (data.blendFuncSource == GL.DST_COLOR) {
-			trace("MULTIPLY");
 			this.blendMode = BlendMode.MULTIPLY;
 		} else if ((data.blendFuncSource == GL.ZERO || data.blendFuncSource == GL.SRC_ALPHA_SATURATE)
 			&& data.blendFuncDestination == GL.ONE_MINUS_SRC_ALPHA) {
-			trace("SUBTRACT");
 			this.blendMode = BlendMode.SUBTRACT;
 		} else if (data.blendFuncSource == GL.ONE && data.blendFuncDestination == GL.ONE) {
-			trace("add");
 			this.blendMode = BlendMode.ADD;
 		} else {
-			trace("normal");
 			this.blendMode = BlendMode.NORMAL;
 		}
 		this.data = data;
