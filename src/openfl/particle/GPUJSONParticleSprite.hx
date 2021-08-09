@@ -77,6 +77,8 @@ class GPUJSONParticleSprite extends GPUParticleSprite {
 	}
 
 	override function start() {
+		if(texture == null)
+			throw "Texture is null.";
 		var scale1 = Math.min((data.startParticleSize) / texture.width, (data.startParticleSize) / texture.height);
 		var scale2 = Math.min((data.startParticleSize + data.startParticleSizeVariance) / texture.width,
 			(data.startParticleSize + data.startParticleSizeVariance) / texture.height);
