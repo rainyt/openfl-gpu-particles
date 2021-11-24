@@ -21,9 +21,9 @@ class Main extends Sprite {
 	}
 
 	public function onInit(e:Event):Void {
-		stage.color = 0x0;
+		// stage.color = 0x0;
 		stage.color = 0x888888;
-		Assets.loadBitmapData("assets/laba_lihua.png").onComplete(function(texture) {
+		Assets.loadBitmapData("assets/yudi_da.png").onComplete(function(texture) {
 			// 创建一个粒子对象
 			var gpuSystem:GPUParticleSprite = null;
 			for (i in 0...0) {
@@ -81,15 +81,15 @@ class Main extends Sprite {
 			});
 
 			// JSON粒子DEMO
-			Assets.loadText("assets/laba_lihua.json").onComplete(function(data) {
+			Assets.loadText("assets/yudi_da.json").onComplete(function(data) {
 				// Create JSON Particle
 				var jsonParticle = GPUParticleSprite.fromJson(Json.parse(data), texture);
 				jsonParticle.forceReset = true;
 				this.addChild(jsonParticle);
 				jsonParticle.x = stage.stageWidth / 2;
-				jsonParticle.y = stage.stageHeight / 2;
+				// jsonParticle.y = stage.stageHeight / 2;
 
-				jsonParticle.colorAttribute.end.w.asOneAttribute().value = 0;
+				// jsonParticle.colorAttribute.end.w.asOneAttribute().value = 0;
 
 				// var end = jsonParticle.colorAttribute.end.copy();
 				// end.w.asOneAttribute().value = 0;

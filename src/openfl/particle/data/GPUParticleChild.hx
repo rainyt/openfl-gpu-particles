@@ -219,7 +219,7 @@ class GPUParticleChild {
 		var startColor2 = sprite.colorAttribute.start.y.getValue();
 		var startColor3 = sprite.colorAttribute.start.z.getValue();
 		var startColor4 = sprite.colorAttribute.start.w.getValue();
-
+		
 		var endColor1 = sprite.colorAttribute.end.x.getValue();
 		var endColor2 = sprite.colorAttribute.end.y.getValue();
 		var endColor3 = sprite.colorAttribute.end.z.getValue();
