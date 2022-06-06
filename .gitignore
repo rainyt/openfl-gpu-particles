@@ -1,2 +1,3 @@
 samples/Export
 .dev
+*.DS_Store
