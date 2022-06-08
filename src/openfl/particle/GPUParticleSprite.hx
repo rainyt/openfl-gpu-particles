@@ -208,7 +208,12 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 	}
 
 	public function onFrame(#if !zygameui e:Event #end) {
-		this.time += #if zygameui Start.current.frameDt #else 1 / 60 #end;
+		var curtime = time + #if zygameui Start.current.frameDt #else 1 / 60 #end;
+		var lifetime = (life + lifeVariance);
+		if (curtime > lifetime * 2) {
+			curtime = lifetime + (curtime % lifetime);
+		}
+		this.time = curtime;
 		particleLiveCounts = 0;
 		var updateAttr:UpdateParams = new UpdateParams();
 		for (index => value in childs) {
