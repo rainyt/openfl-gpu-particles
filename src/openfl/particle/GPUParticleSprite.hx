@@ -267,9 +267,9 @@ class GPUParticleSprite extends Sprite #if zygame implements Refresher #end {
 		_shader.data.bitmap.input = texture;
 		this.graphics.clear();
 		this.graphics.beginShaderFill(_shader);
-		var vertices:Vector<Float> = new Vector();
-		var triangles:Vector<Int> = new Vector();
-		var uv:Vector<Float> = new Vector();
+		var vertices:Vector<Float> = new Vector(0, false);
+		var triangles:Vector<Int> = new Vector(0, false);
+		var uv:Vector<Float> = new Vector(0, false);
 		_shader.a_random.value = [];
 		_shader.a_acceleration.value = [];
 		_shader.a_velocity.value = [];
